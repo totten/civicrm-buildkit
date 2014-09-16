@@ -4,6 +4,8 @@
 
 ###############################################################################
 
+CMS_VERSION=${CMS_VERSION:-latest}
+
 ## TODO: Checkout Civi's code...
 cvutil_mkdir "$PRIVATE_ROOT" "$PRIVATE_ROOT/src"
 

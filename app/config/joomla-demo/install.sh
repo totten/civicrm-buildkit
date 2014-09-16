@@ -99,7 +99,7 @@ cat "$PRIVATE_ROOT/src/civicrm/script.civicrm.php" >> "$WEB_ROOT/administrator/c
 
 
 # Run Joomla Discover Install
-joomla extension:install "$SITE_NAME" civicrm --www="$WEB_ROOT" --mysql="$CMS_DB_USER":"$CMS_DB_PASS"@"$CMS_DB_HOSTPORT"
+#joomla extension:install "$SITE_NAME" civicrm --www="$WEB_ROOT" --mysql="$CMS_DB_USER":"$CMS_DB_PASS"@"$CMS_DB_HOSTPORT"
 
 set +x
 echo "================================================================================"
