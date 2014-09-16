@@ -91,8 +91,8 @@ cvutil_mkdir "$TMPDIR/$SITE_NAME"{,/joomlaxml,/joomlaxml/admin}
 php "$CIVI_CORE/distmaker/utils/joomlaxml.php" "$CIVI_CORE" "$TMPDIR/$SITE_NAME/joomlaxml" "$CIVI_VERSION" alt
 cp -f "$TMPDIR/$SITE_NAME/joomlaxml/civicrm.xml" "$WEB_ROOT/administrator/components/com_civicrm/civicrm.xml"
 cp -f "$TMPDIR/$SITE_NAME/joomlaxml/admin/access.xml" "$WEB_ROOT/administrator/components/com_civicrm/access.xml"
-#echo '<?php /* AUTO-GENERATED */ ?>' > "administrator/components/com_civicrm/script.civicrm.php"
-cp -f "src/civicrm/script.civicrm.php" "administrator/components/com_civicrm/script.civicrm.php"
+echo '<?php /* AUTO-GENERATED */ ?>' > "$WEB_ROOT/administrator/components/com_civicrm/script.civicrm.php"
+cat "$PRIVATE_ROOT/src/civicrm/script.civicrm.php" >> "$WEB_ROOT/administrator/components/com_civicrm/script.civicrm.php"
 
 #Only in joomla-demo.working-from-tarball/administrator/language/en-GB: en-GB.com_civicrm.ini
 #Only in joomla-demo.working-from-tarball/administrator/language/en-GB: en-GB.com_civicrm.sys.ini
