@@ -19,6 +19,7 @@ bin/drush.complete.sh
 bin/drush.php
 bin/git-scan
 bin/hub
+bin/joomla
 bin/wp
 bin/wp.bat
 build/

@@ -4,9 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-
-    "hash": "0a7d0cee9e60359da2ba3f6be23251f8",
-
+    "hash": "92a9b77dd9fbe497be4abb9a834fd235",
     "packages": [
         {
             "name": "civicrm/upgrade-test",
@@ -38,41 +36,7 @@
             ],
             "description": "Collection of scripts and data-files for testing CiviCRM upgrades",
             "homepage": "https://github.com/civicrm/civicrm-upgrade-test",
-            "time": "2014-08-20 09:26:06"
-        },
-        {
-            "name": "d11wtq/boris",
-            "version": "v1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/d11wtq/boris.git",
-                "reference": "125dd4e5752639af7678a22ea597115646d89c6e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/d11wtq/boris/zipball/125dd4e5752639af7678a22ea597115646d89c6e",
-                "reference": "125dd4e5752639af7678a22ea597115646d89c6e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "ext-pcntl": "*",
-                "ext-posix": "*",
-                "ext-readline": "*"
-            },
-            "bin": [
-                "bin/boris"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Boris": "lib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-01-17 12:21:18"
+            "time": "2014-08-20 08:31:34"
         },
         {
             "name": "drush/drush",
@@ -80,23 +44,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "6db1c9bf96eb40dd6456117312ba0e5395cc8f5c"
+                "reference": "d1d13676f5beacaa9f8619088fe3ae45ea28a6cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/6db1c9bf96eb40dd6456117312ba0e5395cc8f5c",
-                "reference": "6db1c9bf96eb40dd6456117312ba0e5395cc8f5c",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/d1d13676f5beacaa9f8619088fe3ae45ea28a6cf",
+                "reference": "d1d13676f5beacaa9f8619088fe3ae45ea28a6cf",
                 "shasum": ""
             },
             "require": {
-                "d11wtq/boris": "*",
-                "pear/console_table": "1.1.5",
-                "php": ">=5.3.0",
-                "symfony/yaml": "~2.2"
+                "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.5",
-                "symfony/process": "2.4.5"
+                "phpunit/phpunit": ">=3.5"
             },
             "bin": [
                 "drush",
@@ -105,14 +65,9 @@
                 "drush.complete.sh"
             ],
             "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Drush": "lib/"
-                }
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+"
+                "GPLv2"
             ],
             "authors": [
                 {
@@ -141,12 +96,13 @@
                 },
                 {
                     "name": "Jonathan Hedstrom",
-                    "email": "jhedstrom@gmail.com"
+                    "email": "jhedstrom@gmail.com",
+                    "homepage": "http://professorbikeybike.com"
                 }
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2014-09-15 13:20:16"
+            "time": "2013-10-26 07:40:45"
         },
         {
             "name": "jsproffitt/amp",
@@ -379,7 +335,6 @@
                 "xml"
             ],
             "time": "2013-02-24 15:01:54"
-
         },
         {
             "name": "rhumsaa/array_column",
