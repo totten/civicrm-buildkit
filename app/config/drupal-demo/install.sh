@@ -38,10 +38,10 @@ pushd "${WEB_ROOT}/sites/${DRUPAL_SITE_DIR}" >> /dev/null
   drush -y dis overlay
 
   ## Setup CiviCRM
-  echo '{"enable_components":["CiviEvent","CiviContribute","CiviMember","CiviMail","CiviReport","CiviPledge","CiviCase","CiviCampaign"]}' \
-    | drush cvapi setting.create --in=json
-  drush cvapi setting.create versionCheck=0 debug=1
-  drush cvapi MailSettings.create id=1 is_default=1 domain=example.org debug=1
+#x  echo '{"enable_components":["CiviEvent","CiviContribute","CiviMember","CiviMail","CiviReport","CiviPledge","CiviCase","CiviCampaign"]}' \
+#x    | drush cvapi setting.create --in=json
+#x  drush cvapi setting.create versionCheck=0 debug=1
+#x  drush cvapi MailSettings.create id=1 is_default=1 domain=example.org debug=1
 
   ## Setup theme
   #above# drush -y en garland
@@ -53,57 +53,57 @@ pushd "${WEB_ROOT}/sites/${DRUPAL_SITE_DIR}" >> /dev/null
   drush php-eval -u "$ADMIN_USER" 'module_load_include("inc","block","block.admin"); block_admin_display();'
 
   ## Setup welcome page
-  drush -y scr "$SITE_CONFIG_DIR/install-welcome.php"
-  drush -y vset site_frontpage "welcome"
+#x  drush -y scr "$SITE_CONFIG_DIR/install-welcome.php"
+#x  drush -y vset site_frontpage "welcome"
 
   ## Setup login_destination
   #above# drush -y en login_destination
-  drush -y scr "$SITE_CONFIG_DIR/install-login-destination.php"
+#x  drush -y scr "$SITE_CONFIG_DIR/install-login-destination.php"
 
   ## Setup userprotect
   #above# drush -y en userprotect
-  drush scr "$PRJDIR/src/drush/perm.php" <<EOPERM
-    role "authenticated user"
-    remove "change own e-mail"
-    remove "change own openid"
-    remove "change own password"
-EOPERM
+#x  drush scr "$PRJDIR/src/drush/perm.php" <<EOPERM
+#x    role "authenticated user"
+#x    remove "change own e-mail"
+#x    remove "change own openid"
+#x    remove "change own password"
+#xEOPERM
 
   ## Setup demo user
-  drush -y en civicrm_webtest
-  drush -y user-create --password="$DEMO_PASS" --mail="$DEMO_EMAIL" "$DEMO_USER"
-  drush -y user-add-role civicrm_webtest_user "$DEMO_USER"
-  # In Garland, CiviCRM's toolbar looks messy unless you also activate Drupal's "toolbar", so grant "access toolbar"
-  # We've activated more components than typical web-test baseline, so grant rights to those components.
-  drush scr "$PRJDIR/src/drush/perm.php" <<EOPERM
-    role 'civicrm_webtest_user'
-    add 'access toolbar'
-    add 'administer CiviCase'
-    add 'access all cases and activities'
-    add 'access my cases and activities'
-    add 'add cases'
-    add 'delete in CiviCase'
-    add 'administer CiviCampaign'
-    add 'manage campaign'
-    add 'reserve campaign contacts'
-    add 'release campaign contacts'
-    add 'interview campaign contacts'
-    add 'gotv campaign contacts'
-    add 'sign CiviCRM Petition'
-EOPERM
+#x  drush -y en civicrm_webtest
+#x  drush -y user-create --password="$DEMO_PASS" --mail="$DEMO_EMAIL" "$DEMO_USER"
+#x  drush -y user-add-role civicrm_webtest_user "$DEMO_USER"
+#x  # In Garland, CiviCRM's toolbar looks messy unless you also activate Drupal's "toolbar", so grant "access toolbar"
+#x  # We've activated more components than typical web-test baseline, so grant rights to those components.
+#x  drush scr "$PRJDIR/src/drush/perm.php" <<EOPERM
+#x    role 'civicrm_webtest_user'
+#x    add 'access toolbar'
+#x    add 'administer CiviCase'
+#x    add 'access all cases and activities'
+#x    add 'access my cases and activities'
+#x    add 'add cases'
+#x    add 'delete in CiviCase'
+#x    add 'administer CiviCampaign'
+#x    add 'manage campaign'
+#x    add 'reserve campaign contacts'
+#x    add 'release campaign contacts'
+#x    add 'interview campaign contacts'
+#x    add 'gotv campaign contacts'
+#x    add 'sign CiviCRM Petition'
+#xEOPERM
 
   ## Setup CiviVolunteer
-  drush -y cvapi extension.install key=org.civicrm.volunteer debug=1
-  drush scr "$PRJDIR/src/drush/perm.php" <<EOPERM
-    role 'anonymous user'
-    role 'authenticated user'
-    add 'register to volunteer'
-EOPERM
+#x  drush -y cvapi extension.install key=org.civicrm.volunteer debug=1
+#x  drush scr "$PRJDIR/src/drush/perm.php" <<EOPERM
+#x    role 'anonymous user'
+#x    role 'authenticated user'
+#x    add 'register to volunteer'
+#xEOPERM
 
-  drush -y -u "$ADMIN_USER" cvapi extension.install key=eu.tttp.civisualize debug=1
-  drush -y -u "$ADMIN_USER" cvapi extension.install key=org.civicrm.module.cividiscount debug=1
+#x  drush -y -u "$ADMIN_USER" cvapi extension.install key=eu.tttp.civisualize debug=1
+#x  drush -y -u "$ADMIN_USER" cvapi extension.install key=org.civicrm.module.cividiscount debug=1
 
   ## Setup CiviCRM dashboards
-  INSTALL_DASHBOARD_USERS="$ADMIN_USER;$DEMO_USER" drush scr "$SITE_CONFIG_DIR/install-dashboard.php"
+#x  INSTALL_DASHBOARD_USERS="$ADMIN_USER;$DEMO_USER" drush scr "$SITE_CONFIG_DIR/install-dashboard.php"
 
 popd >> /dev/null
