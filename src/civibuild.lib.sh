@@ -427,7 +427,7 @@ function amp_uninstall() {
 ###############################################################################
 ## Generate config files and setup database
 function civicrm_install() {
-  cvutil_assertvars civicrm_install CIVI_CORE CIVI_FILES CIVI_TEMPLATEC CIVI_DOMAIN_NAME CIVI_DOMAIN_EMAIL
+  cvutil_assertvars civicrm_install CIVI_CORE CIVI_DB_DSN CIVI_FILES CIVI_SETTINGS CIVI_TEMPLATEC CIVI_DOMAIN_NAME CIVI_DOMAIN_EMAIL CMS_URL CMS_DB_DSN SITE_ID
 
   if [ ! -d "$CIVI_CORE/bin" -o ! -d "$CIVI_CORE/CRM" ]; then
     echo "Failed to locate valid civi root: $CIVI_CORE"
@@ -440,21 +440,39 @@ function civicrm_install() {
     amp datadir "$CIVI_EXT_DIR"
   fi
 
-  ## Create CiviCRM config files
-  civicrm_make_settings_php
-  civicrm_make_setup_conf
-  civicrm_make_test_settings_php
+  if [ -f "$CIVI_CORE/bin/civi" ]; then ## Civi >= v4.7
+    pushd "$CIVI_CORE" >> /dev/null
+      if [ -e "xml" -a -e "bin/setup.sh" ]; then
+        ## Use setup.sh to initialize files - but not DB
+        env SITE_ID="$SITE_ID" ./bin/setup.sh -Dg
+      fi
+      bin/civi install -v \
+        --dataDir="$CIVI_FILES" \
+        --dsn="$CIVI_DB_DSN" \
+        --loadGenerated \
+        --settingsPhp="$CIVI_SETTINGS" \
+        --uf="$CIVI_UF" \
+        --ufBaseUrl="$CMS_URL" \
+        --ufDsn="$CMS_DB_DSN"
+    popd >> /dev/null
+    civicrm_make_test_settings_php
+  else ## Civi <= v4.6
+    ## Create CiviCRM config files
+    civicrm_make_settings_php
+    civicrm_make_setup_conf
+    civicrm_make_test_settings_php
 
-  pushd "$CIVI_CORE" >> /dev/null
-    ## Does this build include development support (eg git or tarball-based)?
-    if [ -e "xml" -a -e "bin/setup.sh" ]; then
-      env SITE_ID="$SITE_ID" ./bin/setup.sh
-    elif [ -e "sql/civicrm.mysql" -a -e "sql/civicrm_generated.mysql" ]; then
-      cat sql/civicrm.mysql sql/civicrm_generated.mysql | mysql $CIVI_DB_ARGS
-    else
-      echo "Failed to locate civi SQL files"
-    fi
-  popd >> /dev/null
+    pushd "$CIVI_CORE" >> /dev/null
+      ## Does this build include development support (eg git or tarball-based)?
+      if [ -e "xml" -a -e "bin/setup.sh" ]; then
+        env SITE_ID="$SITE_ID" ./bin/setup.sh
+      elif [ -e "sql/civicrm.mysql" -a -e "sql/civicrm_generated.mysql" ]; then
+        cat sql/civicrm.mysql sql/civicrm_generated.mysql | mysql $CIVI_DB_ARGS
+      else
+        echo "Failed to locate civi SQL files"
+      fi
+    popd >> /dev/null
+  fi
 
   mysql $CIVI_DB_ARGS <<EOSQL
     UPDATE civicrm_domain SET name = '$CIVI_DOMAIN_NAME';
