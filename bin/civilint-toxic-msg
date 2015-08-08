@@ -1,0 +1,87 @@
+#!/usr/bin/env php
+<?php
+
+## usage: git-php-symbol-diff | civilint-toxic-msg | env GHICU_TOKEN=abcd123 ghicu
+##
+## There should be a file in the current folder named ".toxic.json" which looks like:
+##
+## {
+##   "templates": {
+##     "std": "These things are toxic: {SYMBOLS}"
+##   },
+##   "checks": {
+##     "Some_Class::someFunc()": "std"
+##   }
+## }
+
+$cmd = new CivilintToxicMsg();
+$cmd->main($argv);
+
+class CivilintToxicMsg {
+  public function main($argv) {
+    $options = $this->loadOptions();
+    $symbols = array_unique(explode("\n", file_get_contents("php://stdin")));
+    $symbols = array_combine($symbols, $symbols);
+    
+    $matches = array(); // array(string $templateName => array $symbols)
+    foreach ($options['checks'] as $phpSymbol => $template) {
+      if (isset($symbols[$phpSymbol])) {
+        $matches[$template][] = $phpSymbol;
+      }
+    }
+    
+    $first = TRUE;
+    foreach ($matches as $template => $phpSymbols) {
+      if (!isset($options['templates'][$template])) {
+        $this->error("civilint-toxic-msg failed to find message template: $template");
+      }
+      if (!$first) {
+        echo "\n\n";
+      }
+      $msg = $options['templates'][$template];
+      echo strtr(
+        rtrim($msg, " \n\t") . "\n",
+        array(
+          '{SYMBOLS}' => $this->implodeAnd($phpSymbols),
+        )
+      );
+      $first = FALSE;
+    }
+  }
+  
+  public function loadOptions($file = '.toxic.json') {
+    if (file_exists($file)) {
+      $options = json_decode(file_get_contents($file), TRUE);
+      if (!is_array($options)) {
+        $this->error("civilint-toxic-msg failed to parse .toxic.json" . realpath($file));
+      }
+    }
+    else {
+      $options = array();
+    }
+    if (!isset($options['templates'])) {
+      $options['templates'] = array();
+    }
+    if (!isset($options['checks'])) {
+      $options['checks'] = array();
+    }
+    return $options;
+  }
+  
+  public function implodeAnd($list) {
+    $r = '`';
+    $last = array_pop($list);
+    if ($list) {
+      $r .= implode("`, `", $list);
+      $r .= "` and `";
+    }
+    $r .= $last;
+    $r .= '`';
+    return $r;
+  }
+  
+  public function error($msg) {
+    echo "Bot Error: $msg\n";
+    exit(1);
+  }
+}
