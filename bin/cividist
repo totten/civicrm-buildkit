@@ -164,6 +164,7 @@ function _cividist_build_readme() {
           <a href="https://github.com/civicrm/civicrm-drupal/">civicrm-drupal.git</a>,
           <a href="https://github.com/civicrm/civicrm-joomla/">civicrm-joomla.git</a>,
           <a href="https://github.com/civicrm/civicrm-packages/">civicrm-packages.git</a>,
+          <a href="https://github.com/civicrm/civicrm-setup/">civicrm-setup.git</a>,
           <a href="https://github.com/civicrm/civicrm-wordpress/">civicrm-wordpress.git</a>).</li>
         <li><strong>These files should only be installed on experimental/testing/staging servers.</strong> Do
            <strong>not</strong> install on live/production servers.</li>

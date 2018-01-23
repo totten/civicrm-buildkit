@@ -309,6 +309,7 @@ case "$CIVICRM_CMS" in
   all)
     config_repo civicrm-core       "$CIVICRM_ROOT"            "$CIVICRM_BRANCH"      "../tools/scripts/git"
     config_repo civicrm-packages   "$CIVICRM_ROOT/packages"   "$CIVICRM_BRANCH"      "../../tools/scripts/git"
+    config_repo civicrm-setup      "$CIVICRM_ROOT/setup"      "$CIVICRM_BRANCH"      "../../tools/scripts/git"
     config_repo civicrm-backdrop   "$CIVICRM_ROOT/backdrop"   "1.x-$CIVICRM_BRANCH"  "../../tools/scripts/git"
     config_repo civicrm-drupal     "$CIVICRM_ROOT/drupal"     "7.x-$CIVICRM_BRANCH"  "../../tools/scripts/git"
     config_repo civicrm-joomla     "$CIVICRM_ROOT/joomla"     "$CIVICRM_BRANCH"      "../../tools/scripts/git"

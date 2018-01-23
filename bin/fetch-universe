@@ -60,6 +60,9 @@ $core = array(
   'civicrm-packages' => array(
     'git_url' => 'https://github.com/civicrm/civicrm-packages',
   ),
+  'civicrm-setup' => array(
+    'git_url' => 'https://github.com/civicrm/civicrm-setup',
+  ),
   'civicrm-wordpress' => array(
     'git_url' => 'https://github.com/civicrm/civicrm-wordpress',
   ),

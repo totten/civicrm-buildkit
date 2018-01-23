@@ -146,7 +146,7 @@ function do_mk_project() {
 ## Tag all repos
 function do_git_tag() {
   cd "$workdir/$version"
-  for dir in export export/joomla export/WordPress export/packages ; do
+  for dir in export export/joomla export/WordPress export/packages export/setup ; do
     pushd $dir
       git checkout "$start_point"
       git tag "$version"
@@ -172,7 +172,7 @@ function do_git_tag() {
 ## Publish tags via git
 function do_git_tag_push() {
   cd "$workdir/$version"
-  for dir in export export/joomla export/WordPress export/packages ; do
+  for dir in export export/joomla export/WordPress export/packages export/setup ; do
     pushd $dir
       git push -f origin "$version"
     popd
@@ -219,6 +219,7 @@ function do_distmaker() {
   DM_REF_JOOMLA=${start_point}
   DM_REF_WORDPRESS=${start_point}
   DM_REF_PACKAGES=${start_point}
+  DM_REF_SETUP=master
   " > "$workdir/$version/export/distmaker/distmaker.conf"
 
   # create a minimal civicrm.settings.php file

@@ -191,6 +191,7 @@ class Givi {
       'drupal' => 'drupal',
       'joomla' => 'joomla',
       'packages' => 'packages',
+      'setup' => 'setup',
       'wordpress' => 'WordPress',
     );
   }
@@ -302,7 +303,7 @@ class Givi {
       elseif (preg_match('/^--repos=(.*)/', $arg, $matches)) {
         $this->repoFilter = $matches[1];
       }
-      elseif (preg_match('/^--(core|packages|joomla|drupal|wordpress)=(.*)/', $arg, $matches)) {
+      elseif (preg_match('/^--(core|packages|setup|joomla|drupal|wordpress)=(.*)/', $arg, $matches)) {
         $this->branches[$matches[1]] = $matches[2];
       }
       elseif (preg_match('/^-/', $arg)) {
@@ -359,6 +360,7 @@ class Givi {
     echo "Special options:\n";
     echo "  --core=X: Specify the branch to use on the core repository\n";
     echo "  --packages=X: Specify the branch to use on the packages repository\n";
+    echo "  --setup=X: Specify the branch to use on the setup repository\n";
     echo "  --drupal=X: Specify the branch to use on the drupal repository\n";
     echo "  --joomla=X: Specify the branch to use on the joomla repository\n";
     echo "  --wordpress=X: Specify the branch to use on the wordpress repository\n";
