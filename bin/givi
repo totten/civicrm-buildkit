@@ -189,6 +189,7 @@ class Givi {
     $this->repos = array(
       'core' => '.',
       'drupal' => 'drupal',
+      'drupal-8' => 'drupal-8',
       'joomla' => 'joomla',
       'packages' => 'packages',
       'wordpress' => 'WordPress',
@@ -302,7 +303,7 @@ class Givi {
       elseif (preg_match('/^--repos=(.*)/', $arg, $matches)) {
         $this->repoFilter = $matches[1];
       }
-      elseif (preg_match('/^--(core|packages|joomla|drupal|wordpress)=(.*)/', $arg, $matches)) {
+      elseif (preg_match('/^--(core|packages|joomla|drupal|drupal-8|wordpress)=(.*)/', $arg, $matches)) {
         $this->branches[$matches[1]] = $matches[2];
       }
       elseif (preg_match('/^-/', $arg)) {
@@ -360,6 +361,7 @@ class Givi {
     echo "  --core=X: Specify the branch to use on the core repository\n";
     echo "  --packages=X: Specify the branch to use on the packages repository\n";
     echo "  --drupal=X: Specify the branch to use on the drupal repository\n";
+    echo "  --drupal-8=X: Specify the branch to use on the drupal repository\n";
     echo "  --joomla=X: Specify the branch to use on the joomla repository\n";
     echo "  --wordpress=X: Specify the branch to use on the wordpress repository\n";
     echo "  --rebase: Perform a rebase before starting work\n";
