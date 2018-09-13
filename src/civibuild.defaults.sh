@@ -183,6 +183,9 @@ TEST_DB_PORT=
 TEST_DB_USER=
 TEST_DB_PERM=super
 
+## True if the installation process should creating/loading DB snapshots
+SNAPSHOT_SKIP=
+
 ###############################################################################
 ## snapshot-related variables
 ## (also used for cloning)

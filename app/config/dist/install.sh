@@ -7,7 +7,28 @@ CMS_ROOT="$WEB_ROOT/web"
 ###############################################################################
 ## Create virtual-host and databases
 
-amp_install
+function dist_install() {
+  echo "[[Setup MySQL and HTTP for CMS]]"
+  cvutil_assertvars _amp_install_cms CMS_ROOT SITE_NAME SITE_ID TMPDIR
+  local amp_vars_file_path=$(mktemp.php ampvar)
+  local amp_name="cms$SITE_ID"
+  [ "$SITE_ID" == "default" ] && amp_name=cms
+
+  amp create -f --root="$CMS_ROOT" --name="$amp_name" --prefix=CMS_ --url="$CMS_URL" --output-file="$amp_vars_file_path" --skip-db
+  source "$amp_vars_file_path"
+  rm -f "$amp_vars_file_path"
+
+  CMS_DB_DSN='mysql://fake:fake127.0.0.1:3333/fake?new_link=true'
+  CMS_DB_USER='fake'
+  CMS_DB_PASS='fake'
+  CMS_DB_HOST='127.0.0.1'
+  CMS_DB_PORT='3333'
+  CMS_DB_NAME='fake'
+  CMS_DB_ARGS='--defaults-file='\''fake'\'' fake'
+
+  SNAPSHOT_SKIP=1
+}
+dist_install
 
 ###############################################################################
 cvutil_mkdir "$WEB_ROOT/out" "$WEB_ROOT/out/gen" "$WEB_ROOT/out/tmp" "$WEB_ROOT/out/tar" "$WEB_ROOT/out/config"

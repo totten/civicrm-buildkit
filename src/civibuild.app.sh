@@ -125,7 +125,9 @@ function civibuild_app_install() {
     pushd "$WEB_ROOT" > /dev/null
       civibuild_app_run install
     popd > /dev/null
-    amp_snapshot_create
+    if [ -z "$SNAPSHOT_SKIP" ]; then
+      amp_snapshot_create
+    fi
     IS_INSTALLED=1
   else
     echo "Already installed ${SITE_NAME}/${SITE_ID}"
@@ -140,7 +142,9 @@ function civibuild_app_install() {
     popd >> /dev/null
   fi
 
-  _amp_snapshot_restore_test
+  if [ -z "$SNAPSHOT_SKIP" ]; then
+    _amp_snapshot_restore_test
+  fi
 }
 
 ###############################################################################
