@@ -20,7 +20,8 @@ function absdirname() {
 
 BINDIR=$(absdirname "$0")
 PRJDIR=$(dirname "$BINDIR")
-TMPDIR="$PRJDIR/app/tmp"
+VARDIR="${BKIT_VAR:-PRJDIR/app}"
+TMPDIR="$VARDIR/tmp"
 BLDDIR="$PRJDIR/build"
 export RELEASE_TMPDIR="$TMPDIR/releaser"
 

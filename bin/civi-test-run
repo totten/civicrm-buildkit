@@ -90,7 +90,7 @@ function task_upgrade() {
     EXITCODES="$EXITCODES upgrade-test"
   fi
   echo "Found EXITCODES=\"$EXITCODES\""
-  $GUARD cp "$PRJDIR/app/debug/$BLDNAME/civicrm-upgrade-test.xml" "$JUNITDIR/"
+  $GUARD cp "$VARDIR/debug/$BLDNAME/civicrm-upgrade-test.xml" "$JUNITDIR/"
   $GUARD civibuild restore "$BLDNAME"
 }
 
@@ -122,13 +122,15 @@ function absdirname() {
 
 BINDIR=$(absdirname "$0")
 PRJDIR=$(dirname "$BINDIR")
+VARDIR="${BKIT_VAR:-PRJDIR/app}"
+TMPDIR="$VARDIR/tmp"
 BLDDIR="$PRJDIR/build"
 EXITCODES=
 SUITES=
 EXCLUDE_GROUP=
 GUARD=
 
-[ -f "$PRJDIR/app/civibuild.conf" ] && source "$PRJDIR/app/civibuild.conf"
+[ -f "$VARDIR/civibuild.conf" ] && source "$VARDIR/civibuild.conf"
 
 #################################################
 ## Parse inputs

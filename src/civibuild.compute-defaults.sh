@@ -3,10 +3,10 @@
 [ -z "$CACHE_DIR" ]          && CACHE_DIR="$TMPDIR/git-cache"
 [ -z "$WEB_ROOT" ]           && WEB_ROOT="$BLDDIR/$SITE_NAME"
 [ -z "$CMS_ROOT" ]           && CMS_ROOT="$WEB_ROOT"
-[ -z "$PRIVATE_ROOT" ]       && PRIVATE_ROOT="$PRJDIR/app/private/$SITE_NAME"
-[ -z "$CLONE_ROOT" ]         && CLONE_ROOT="$PRJDIR/app/clone/$SITE_NAME/$SITE_ID"
+[ -z "$PRIVATE_ROOT" ]       && PRIVATE_ROOT="$VARDIR/private/$SITE_NAME"
+[ -z "$CLONE_ROOT" ]         && CLONE_ROOT="$VARDIR/clone/$SITE_NAME/$SITE_ID"
 [ -z "$CLONE_DIR" ]          && CLONE_DIR="$CLONE_ROOT/$CLONE_ID"
-[ -z "$UPGRADE_LOG_DIR" ]    && UPGRADE_LOG_DIR="$PRJDIR/app/debug/$SITE_NAME"
+[ -z "$UPGRADE_LOG_DIR" ]    && UPGRADE_LOG_DIR="$VARDIR/debug/$SITE_NAME"
 [ -z "$CIVI_SITE_KEY" ]      && CIVI_SITE_KEY=$(cvutil_makepasswd 16)
 [ -z "$ADMIN_PASS" ]         && ADMIN_PASS=$(cvutil_makepasswd 12)
 [ -z "$DEMO_PASS" ]          && DEMO_PASS=$(cvutil_makepasswd 12)
@@ -25,7 +25,7 @@ if [ -z "$CMS_URL" ]; then
 fi
 #[ -z "$CMS_HOSTNAME" ]       && CMS_HOSTNAME=$(php -r '$p = parse_url($argv[1]); echo $p["host"];' "$CMS_URL")
 #[ -z "$CMS_PORT" ]           && CMS_PORT=$(php -r '$p = parse_url($argv[1]); echo $p["port"];' "$CMS_URL")
-[ -z "$SNAPSHOT_DIR" ]       && SNAPSHOT_DIR="$PRJDIR/app/snapshot"
+[ -z "$SNAPSHOT_DIR" ]       && SNAPSHOT_DIR="$VARDIR/snapshot"
 if [ "default" == "$SITE_ID" ]; then
   [ -z "$CIVI_SQL"  ]        && CIVI_SQL="$SNAPSHOT_DIR/$SNAPSHOT_NAME/civi.sql.gz"
   [ -z "$CMS_SQL" ]          && CMS_SQL="$SNAPSHOT_DIR/$SNAPSHOT_NAME/cms.sql.gz"

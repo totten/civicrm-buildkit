@@ -15,7 +15,8 @@ function absdirname() {
 
 BINDIR=$(absdirname "$0")
 PRJDIR=$(dirname "$BINDIR")
-TMPDIR="$PRJDIR/app/tmp"
+VARDIR="${BKIT_VAR:-PRJDIR/app}"
+TMPDIR="$VARDIR/tmp"
 LOCKFILE="$TMPDIR/civi-download-tools.lock"
 LOCKTIMEOUT=90
 CIVIXURL="https://download.civicrm.org/civix/civix.phar-2018-12-04-1d9c1734"
@@ -67,7 +68,8 @@ while [ -n "$1" ] ; do
           PRJDIR=$(pwd)
         popd >> /dev/null
         BINDIR="$PRJDIR/bin"
-        TMPDIR="$PRJDIR/app/tmp"
+        VARDIR="$PRJDIR/app"
+        TMPDIR="$VARDIR/tmp"
         LOCKFILE="$TMPDIR/civi-download-tools.lock"
       set +e
       shift
@@ -703,10 +705,10 @@ pushd $PRJDIR >> /dev/null
       echo "[[Install hub]]"
 
       ## Cleanup
-      [ -e app/tmp/hub ] && rm -rf app/tmp/hub
+      [ -e "$TMPDIR/hub" ] && rm -rf "$TMPDIR/hub"
       [ -e extern/hub ] && rm -rf extern/hub
       [ -e "$TMPDIR/hub.tgz" ] && rm -f "$TMPDIR/hub.tgz"
-      mkdir -p app/tmp extern/hub
+      mkdir -p "$TMPDIR" extern/hub
 
       ## Download
       download_url "$HUBURL" "$TMPDIR/hub.tgz"

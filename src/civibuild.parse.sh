@@ -115,8 +115,8 @@ function civibuild_detect_site_name() {
 declare -a ARGS=()
 function civibuild_parse() {
   source "$PRJDIR/src/civibuild.defaults.sh"
-  [ -f "$PRJDIR/app/civibuild.conf" ] && source "$PRJDIR/app/civibuild.conf"
-  cvutil_mkdir "$TMPDIR" "$BLDDIR" "$PRJDIR/app/private"
+  [ -f "$VARDIR/civibuild.conf" ] && source "$VARDIR/civibuild.conf"
+  cvutil_mkdir "$VARDIR" "$TMPDIR" "$BLDDIR" "$VARDIR/private"
 
   civibuild_parse_unnamed_params $@
 

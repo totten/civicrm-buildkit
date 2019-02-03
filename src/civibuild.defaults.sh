@@ -9,7 +9,10 @@
 ## The location of the civicrm-buildkit binaries
 # BINDIR=
 
-## A place to store temp files (PRJDIR/app/tmp)
+## A place to store temp files ($BKIT_VAR; or else PRJDIR/app)
+# VARDIR=
+
+## A place to store temp files (VARDIR/tmp == PRJDIR/app/tmp)
 # TMPDIR=
 
 ## A place to put sites that we build (PRJDIR/build)
