@@ -1,0 +1,24 @@
+diff -ru vendor/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AccessToken.php vendor.new/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AccessToken.php
+--- vendor/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AccessToken.php   2020-10-21 15:47:14.000000000 -0700
++++ vendor.new/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AccessToken.php       2020-10-21 15:53:36.000000000 -0700
+@@ -114,7 +114,7 @@
+      */
+     protected function generateAccessToken()
+     {
+-        if (function_exists('mcrypt_create_iv')) {
++        if (0/*DISABLE-MCRYPT*/ && function_exists('mcrypt_create_iv')) {
+             $randomData = mcrypt_create_iv(20, MCRYPT_DEV_URANDOM);
+             if ($randomData !== false && strlen($randomData) === 20) {
+                 return bin2hex($randomData);
+diff -ru vendor/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AuthorizationCode.php vendor.new/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AuthorizationCode.php
+--- vendor/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AuthorizationCode.php     2020-10-21 15:47:41.000000000 -0700
++++ vendor.new/bshaffer/oauth2-server-php/src/OAuth2/ResponseType/AuthorizationCode.php 2020-10-21 15:53:00.000000000 -0700
+@@ -85,7 +85,7 @@
+     protected function generateAuthorizationCode()
+     {
+         $tokenLen = 40;
+-        if (function_exists('mcrypt_create_iv')) {
++        if (0/*DISABLE-MCRYPT*/ && function_exists('mcrypt_create_iv')) {
+             $randomData = mcrypt_create_iv(100, MCRYPT_DEV_URANDOM);
+         } elseif (function_exists('openssl_random_pseudo_bytes')) {
+             $randomData = openssl_random_pseudo_bytes(100);
