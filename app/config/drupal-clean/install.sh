@@ -41,16 +41,17 @@ civicrm_install
 pushd "${CMS_ROOT}/sites/${DRUPAL_SITE_DIR}" >> /dev/null
 
   drush -y updatedb
-  drush -y en civicrm toolbar locale garland
+  drush -y en civicrm toolbar locale seven
   ## disable annoying/unneeded modules
   drush -y dis overlay
 
   cv ev 'if(is_callable(array("CRM_Core_BAO_CMSUser","synchronize"))){CRM_Core_BAO_CMSUser::synchronize(FALSE);}else{CRM_Utils_System::synchronizeUsers();}'
 
   ## Setup theme
-  #above# drush -y en garland
+  #above# drush -y en seven
   export SITE_CONFIG_DIR
-  drush -y -u "$ADMIN_USER" scr "$SITE_CONFIG_DIR/install-theme.php"
+  # Garland setup: # drush -y -u "$ADMIN_USER" scr "$SITE_CONFIG_DIR/install-theme.php"
+  drush vset theme_default seven
 
   ## Based on the block info, CRM_Core_Block::CREATE_NEW and CRM_Core_Block::ADD should be enabled by default, but they aren't.
   ## "drush -y cc all" and "drush -y cc block" do *NOT* solve the problem. But this does:
