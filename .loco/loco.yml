@@ -10,10 +10,12 @@ default_environment:
  # - HOSTS_TYPE=file
 
  ## HTTPD_*: Determine how a local folder (eg "./build/dmaster") relates to a local HTTP service (eg "http://dmaster.bknix:8001").
+ - HTTPD_PROTO=https
  - HTTPD_DOMAIN=${LOCALHOST}.nip.io
  - HTTPD_PORT=8001
  - HTTPD_VDROOT=$LOCO_PRJ/build
  - HTTPD_VISIBILITY=local
+ - HTTPD_SSL_PORT=4${HTTPD_PORT}
 
  ## *_PORT: Most daemons run on auxiliary/non-standard TCP/UDP ports.
  - MAIL_SMTP_PORT=1025
@@ -86,13 +88,15 @@ services:
   ## Formula: "http://{SUBDOMAIN}.{HTTPD_DOMAIN}:{HTTPD_PORT}/" <==> "./build/{SUBDOMAIN}/"
   ## Ex: "http://foobar.bknix:8001/" <==> "./build/foobar/"
   apache-vdr:
+    depends:
+      - certs
     init:
       - cp "$LOCO_SVC_CFG"/conf/magic "$LOCO_SVC_CFG"/conf/mime.types "$LOCO_SVC_VAR/conf"
       - mk-apache-links
       - 'if [ ! -d "$HTTPD_VDROOT" ]; then mkdir "$HTTPD_VDROOT"; fi'
     run: 'apachectl -d "$LOCO_SVC_VAR" -DFOREGROUND'
     pid_file: '$LOCO_SVC_VAR/httpd.pid'
-    message: 'Apache HTTPD is running at "<comment>http://$LOCALHOST:$HTTPD_PORT</comment>" with content from "<comment>$HTTPD_VDROOT</comment>".'
+    message: 'Apache HTTPD is running at "<comment>http://$LOCALHOST:$HTTPD_PORT</comment>" and "<comment>https://$LOCALHOST:$HTTPD_SSL_PORT</comment>" with content from "<comment>$HTTPD_VDROOT</comment>".'
 
   mysql:
     enabled: true
