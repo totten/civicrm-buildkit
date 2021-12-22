@@ -46,12 +46,20 @@ environment:
  - MYSQL_HOME=$LOCO_VAR/mysql/conf
  - NODE_PATH=$BKIT/node_modules:$NODE_PATH
  - PATH=$BKIT/bin:$BKIT/node_modules/.bin:$LOCO_PRJ/.loco/bin:$PATH
+ - LOCO_CERTS=$LOCO_VAR.keep/certs
+ - NIX_SSL_CERT_FILE=(placeholder)
+ - UPSTREAM_SSL_CERT_FILE=(placeholder)
 
 volume:
   ramdisk: $RAMDISK_SIZE
 
 #### Functional service definitions
 services:
+
+  certs:
+    init:
+      - loco-cert-init
+    message: 'Loco certificates are stored in "<comment>$LOCO_CERTS</comment>".'
 
   redis:
     run: 'redis-server --port "$REDIS_PORT" --bind "$LOCALHOST" --pidfile "$LOCO_SVC_VAR/redis.pid" --dir "$LOCO_SVC_VAR"'

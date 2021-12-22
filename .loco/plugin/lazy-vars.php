@@ -49,6 +49,42 @@ $GLOBALS['lazyVars']['GCLOUD_IP'] = function() {
   return $ip;
 };
 
+$GLOBALS['lazyVars']['UPSTREAM_SSL_CERT_FILE'] = function($e) {
+  return getenv('NIX_SSL_CERT_FILE');
+};
+
+## We wrap around NIX_SSL_CERT_FILE - build our own derived/editable copy of NIX_SSL_CERT_FILE
+## and then change NIX_SSL_CERT_FILE to point to it.
+$GLOBALS['lazyVars']['NIX_SSL_CERT_FILE'] = function($e) {
+  $upstream = getenv('NIX_SSL_CERT_FILE');
+  $var = $e['system']->environment->getValue('LOCO_CERTS');
+  if (!is_dir($var)) {
+    mkdir($var);
+  }
+  $downstream = "$var/ca-bundle.crt";
+
+  $srcs = (array) glob("$var/*.crt");
+  $srcs = preg_grep(';ca-bundle\.crt;', $srcs, PREG_GREP_INVERT);
+  array_unshift($srcs, $upstream);
+  $latestSrc = max(array_map(
+    function($src) {
+      return filemtime($src);
+    },
+    $srcs
+  ));
+  # fprintf(STDERR, "srcs=(%s) latest=(%s) down=(%s)\n", implode(" ", $srcs), $latest, $downstream);
+  if (!file_exists($downstream) || filemtime($downstream) < $latestSrc) {
+    $content = implode("\n", array_map(
+      function($src) {
+        return file_get_contents($src);
+      },
+      $srcs
+    ));
+    file_put_contents("$downstream", $content);
+  }
+  return $downstream;
+};
+
 // --------------------------------------------------------------
 // Apply the lazy variables
 
@@ -68,7 +104,7 @@ function applyLazyVars(\Loco\LocoEvent $e, \Loco\LocoEnv $env) {
   foreach ($GLOBALS['lazyVars'] as $var => $callback) {
     $spec = $env->getSpec($var);
     if ($spec !== NULL) {
-      $cache[$var] = $cache[$var] ?? $callback();
+      $cache[$var] = $cache[$var] ?? $callback($e);
       $env->set($var, $cache[$var]);
     }
   }
