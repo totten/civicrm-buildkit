@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ ! -d "$LOCO_CERTS" ]; then
+  mkdir -p "$LOCO_CERTS"
+fi
+
+if [ -n "$UPSTREAM_SSL_CERT_FILE" -a ! -f "$LOCO_CERTS/ca-bundle.crt" ]; then
+  cat "$UPSTREAM_SSL_CERT_FILE" > "$LOCO_CERTS/ca-bundle.crt"
+fi
+
+if [ ! -f "$LOCO_CERTS/$HTTPD_DOMAIN.combo" ]; then
+  openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
+    -subj "/C=US/ST=Internet/O=loco/CN=*.$HTTPD_DOMAIN" \
+    -keyout "$LOCO_CERTS/$HTTPD_DOMAIN.key" -out "$LOCO_CERTS/$HTTPD_DOMAIN.crt"
+
+  cat "$LOCO_CERTS/$HTTPD_DOMAIN.crt" "$LOCO_CERTS/$HTTPD_DOMAIN.key" > "$LOCO_CERTS/$HTTPD_DOMAIN.combo"
+  chmod 700 "$LOCO_CERTS/$HTTPD_DOMAIN.combo" "$LOCO_CERTS/$HTTPD_DOMAIN.key"
+  cat "$LOCO_CERTS/$HTTPD_DOMAIN.crt" >> "$LOCO_CERTS/ca-bundle.crt"
+  ## ca-bundle.crt is activated via .loco/plugin/lazy-vars.php
+fi
