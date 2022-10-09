@@ -4,7 +4,7 @@
  */
 let
   dists = import ../../pins;
-  nixpkgs = dists.v1909;
+  nixpkgs = dists.v1909.pkgs;
   allPkgs = nixpkgs // pkgs;
   callPackage = path: overrides:
     let f = import path;

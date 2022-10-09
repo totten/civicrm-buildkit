@@ -12,9 +12,9 @@ in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
     dists.default.nodejs-14_x
     dists.default.apacheHttpd
     dists.default.mailhog
-    dists.v1803.memcached
+    dists.v1803.pkgs.memcached
     dists.bkit.mysql56
-    dists.v1803.redis
+    dists.v1803.pkgs.redis
     dists.bkit.transifexClient
 
 ]

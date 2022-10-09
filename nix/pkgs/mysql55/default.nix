@@ -4,7 +4,7 @@
  * be awesome.
  */
 let
-  nixpkgs = import (import ../../pins/18.03.nix) {};
+  nixpkgs = i(import ../../pins).v1803.pkgs;
   allPkgs = nixpkgs // pkgs;
   callPackage = path: overrides:
     let f = import path;
