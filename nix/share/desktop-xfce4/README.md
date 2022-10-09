@@ -1,7 +1,15 @@
 # Welcome, cividev (v2.0-alpha)
 
 Welcome to the "cividev" virtual desktop. This environment is optimized for doing
-application developing for CiviCRM.
+application development for CiviCRM.
+
+## TOC
+
+* Desktop Localization
+* Quick Start
+* Profiles
+* Buildkit Updates
+* System Summary
 
 ## Desktop Localization
 
@@ -14,7 +22,7 @@ application developing for CiviCRM.
 
 ## Quick Start
 
-* On the desktop, open the "bknix-dfl" terminal
+* On the desktop, open the "bknix-dfl" terminal. It will have multiple tabs.
 * In tab #1, launch servers (Apache, PHP, MySQL, etc)
    * Enter the command `loco run`.
    * Observe the final summary has a list of running services.
@@ -59,14 +67,14 @@ This build includes multiple versions of PHP and MySQL, organized as _profiles_:
 
 ## Buildkit Updates
 
-1. This VM includes buildkit, a collection of portable CLI tools. You may update these every few weeks. Here's how:
+1. This VM includes buildkit, a collection of portable CLI tools. You may wish to update these every few weeks. Here's how:
    * Open the "bknix-dfl" terminal
    * Download updates:
       ```
       git pull
       civi-download-tools
       ```
-2. This VM also includes servers (Apache, PHP, MySQL, etc). You may update these every few months. Here's how:
+2. This VM also includes servers (Apache, PHP, MySQL, etc). You may wish to update these every few months. Here's how:
    * If you previously launched the servers (`loco run`), then destroy them.
       * Stop the active processes (`Ctrl-C`)
       * Delete any runtime data (`loco clean`)
