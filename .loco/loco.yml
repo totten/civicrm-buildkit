@@ -2,7 +2,8 @@ format: 'loco-0.1'
 
 ## This is the default configuration used for local development environments.
 
-#### General configuration
+#### Default environment
+## The "default environment variables" will be applied automatically (unless you have already set them yourself).
 default_environment:
 
  ## HOSTS_TYPE: When creating an HTTP service, should we register the hostname in "/etc/hosts" ('file') or not ('none')?
@@ -41,7 +42,8 @@ default_environment:
  ## LOCALHOST: Bind services to a local IP address.
  - LOCALHOST=127.0.0.1
 
-#### Mandatory environment settings
+#### Mandatory environment
+## The "mandatory environment variables" will always be assigned. (This you set values before calling loco, they will be ignored/replaced.)
 environment:
  # CLI applications should use our stuff
  - AMPHOME=$LOCO_VAR.keep/amp
@@ -52,6 +54,8 @@ environment:
  - NODE_PATH=$BKIT/node_modules:$NODE_PATH
  - PATH=$BKIT/bin:$BKIT/node_modules/.bin:$LOCO_PRJ/.loco/bin:$PATH
 
+#### Variable data volume configuration
+## The stroage "volume" is a folder with variable data (aka LOCO_VAR). You may optionally mount it in a ramdisk.
 volume:
   ramdisk: $RAMDISK_SIZE
 
