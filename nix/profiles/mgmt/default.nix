@@ -6,9 +6,10 @@
  * the branches `master` and `master-loco`
  */
 let
-    dists = import ../../dists;
-in [
-    dists.local.pkgs.bknixPhpstormAdvisor
-    dists.local.pkgs.loco
-    dists.local.pkgs.ramdisk
-]
+    ## Get "pkgs" for each known distro
+    distPkgs = builtins.mapAttrs (name: value: value.pkgs) (import ../../dists);
+in (with distPkgs; [
+    local.bknixPhpstormAdvisor
+    local.loco
+    local.ramdisk
+])

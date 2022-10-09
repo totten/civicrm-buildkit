@@ -1,20 +1,21 @@
 /**
  * The `min` list identifies the lowest recommended versions of the system requirements.
  *
- * We rely on a mix of packages from Nix upstream v18.03 (`pkgs`) and custom forks (`bkpkgs`).
+ * We rely on a mix of packages from Nix upstream v18.03 and custom forks  (`default.*`, `v1803.*`, `local.*`).
  */
 let
-    dists = import ../../dists;
+    ## Get "pkgs" for each known distro
+    distPkgs = builtins.mapAttrs (name: value: value.pkgs) (import ../../dists);
 
-in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
+in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ (with distPkgs; [
 
-    dists.local.pkgs.php71
-    dists.default.pkgs.nodejs-14_x
-    dists.default.pkgs.apacheHttpd
-    dists.default.pkgs.mailhog
-    dists.v1803.pkgs.memcached
-    dists.local.pkgs.mysql56
-    dists.v1803.pkgs.redis
-    dists.local.pkgs.transifexClient
+    local.php71
+    default.nodejs-14_x
+    default.apacheHttpd
+    default.mailhog
+    v1803.memcached
+    local.mysql56
+    v1803.redis
+    local.transifexClient
 
-]
+])

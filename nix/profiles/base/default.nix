@@ -2,27 +2,27 @@
  * The `base` profile defines a series of common CLI utilities that rarely change.
  */
 let
-    dists = import ../../dists;
-    pkgs = dists.default.pkgs;
+    ## Get "pkgs" for each known distro
+    distPkgs = builtins.mapAttrs (name: value: value.pkgs) (import ../../dists);
 
-in [
-    pkgs.bzip2
-    dists.local.pkgs.bknixProfile
-    pkgs.curl
-    pkgs.gettext
-    pkgs.git
-    pkgs.gitAndTools.hub
-    pkgs.gnugrep
-    pkgs.gnused
-    pkgs.gnutar
-    pkgs.hostname
-    pkgs.moreutils
-    pkgs.ncurses
-    pkgs.patch
-    pkgs.rsync
-    pkgs.subversion
-    dists.local.pkgs.tzdata
-    pkgs.unzip
-    pkgs.which
-    pkgs.zip
-] ++ (if pkgs.glibcLocales != null then [pkgs.glibcLocales] else [] )
+in (with distPkgs; [
+    default.bzip2
+    local.bknixProfile
+    default.curl
+    default.gettext
+    default.git
+    default.gitAndTools.hub
+    default.gnugrep
+    default.gnused
+    default.gnutar
+    default.hostname
+    default.moreutils
+    default.ncurses
+    default.patch
+    default.rsync
+    default.subversion
+    local.tzdata
+    default.unzip
+    default.which
+    default.zip
+] ++ (if default.glibcLocales != null then [default.glibcLocales] else [] ))

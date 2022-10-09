@@ -1,20 +1,22 @@
 /**
  * The `max` list identifies the highest recommended versions of the system requirements.
  *
- * The `dists` var provides a list of major releases of Nix upstream (eg v19.09 <=> dists.v1909).
+ * The `distPkgs` var provides a list of major releases of Nix upstream (eg v19.09 <=> distPkgs.v1909).
  */
 let
-    dists = import ../../dists;
 
-in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
+    ## Get "pkgs" for each known distro
+    distPkgs = builtins.mapAttrs (name: value: value.pkgs) (import ../../dists);
 
-    dists.local.pkgs.php80
-    dists.default.pkgs.nodejs-14_x
-    dists.default.pkgs.apacheHttpd
-    dists.default.pkgs.mailhog
-    dists.default.pkgs.memcached
-    dists.default.pkgs.mysql80
-    dists.default.pkgs.redis
-    dists.local.pkgs.transifexClient
+in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ (with distPkgs; [
 
-]
+    local.php80
+    default.nodejs-14_x
+    default.apacheHttpd
+    default.mailhog
+    default.memcached
+    default.mysql80
+    default.redis
+    local.transifexClient
+
+])
