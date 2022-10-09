@@ -9,9 +9,9 @@ let
 in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
 
     dists.bkit.php71
-    dists.default.nodejs-14_x
-    dists.default.apacheHttpd
-    dists.default.mailhog
+    dists.default.pkgs.nodejs-14_x
+    dists.default.pkgs.apacheHttpd
+    dists.default.pkgs.mailhog
     dists.v1803.pkgs.memcached
     dists.bkit.mysql56
     dists.v1803.pkgs.redis

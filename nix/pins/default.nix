@@ -68,5 +68,5 @@ rec {
   };
 
   bkit = import ../pkgs;
-  default = v2205.pkgs;
+  default = v2205;
 }

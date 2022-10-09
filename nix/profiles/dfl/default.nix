@@ -5,19 +5,19 @@
  */
 let
     dists = import ../../pins;
-    stdenv = dists.default.stdenv;
+    stdenv = dists.default.pkgs.stdenv;
     ## Some older packages aren't buildable on Apple M1, so we use closest match.
     isAppleM1 = stdenv.isDarwin && stdenv.isAarch64;
 
 in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
 
     dists.bkit.php80
-    dists.default.nodejs-14_x
-    dists.default.apacheHttpd
-    dists.default.mailhog
-    dists.default.memcached
-    (if isAppleM1 then dists.default.mysql80 else dists.default.mysql57)
-    dists.default.redis
+    dists.default.pkgs.nodejs-14_x
+    dists.default.pkgs.apacheHttpd
+    dists.default.pkgs.mailhog
+    dists.default.pkgs.memcached
+    (if isAppleM1 then dists.default.pkgs.mysql80 else dists.default.pkgs.mysql57)
+    dists.default.pkgs.redis
     dists.bkit.transifexClient
 
 ]

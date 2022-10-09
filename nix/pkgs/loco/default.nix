@@ -1,6 +1,6 @@
 let
 
-    pkgs = (import ../../pins).default;
+    pkgs = (import ../../pins).default.pkgs;
     stdenv = pkgs.stdenv;
 
 in stdenv.mkDerivation rec {
