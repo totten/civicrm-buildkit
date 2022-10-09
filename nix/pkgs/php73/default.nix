@@ -1,7 +1,7 @@
 # Make a version of php with extensions and php.ini options
 
 let
-    dists = import ../../pins;
+    dists = import ../../dists;
     pkgs = dists.v2105.pkgs;
     phpExtras = import ../phpExtras/default.nix {
       pkgs = pkgs;

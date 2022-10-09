@@ -2,7 +2,7 @@
  * The `base` profile defines a series of common CLI utilities that rarely change.
  */
 let
-    dists = import ../../pins;
+    dists = import ../../dists;
     pkgs = dists.default.pkgs;
 
 in [

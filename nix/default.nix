@@ -1,6 +1,6 @@
 let
 
-    pkgs = (import ./pins).default.pkgs;
+    pkgs = (import ./dists).default.pkgs;
     stdenv = pkgs.stdenv;
     bkpkgs = import ./pkgs;
     profiles = import ./profiles;

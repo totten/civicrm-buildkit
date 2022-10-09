@@ -6,7 +6,7 @@
 
 let
 
-  pkgs = (import ../pins).default.pkgs;
+  pkgs = (import ../dists).default.pkgs;
   stdenv = pkgs.stdenv;
   callPackage = path: overrides:
     let f = import path;

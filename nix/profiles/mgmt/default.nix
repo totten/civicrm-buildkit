@@ -6,7 +6,7 @@
  * the branches `master` and `master-loco`
  */
 let
-    dists = import ../../pins;
+    dists = import ../../dists;
 in [
     dists.bkit.bknixPhpstormAdvisor
     dists.bkit.loco

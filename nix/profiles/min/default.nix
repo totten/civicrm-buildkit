@@ -4,7 +4,7 @@
  * The `dists` var provides a list of major releases of Nix upstream (eg v19.09 <=> dists.v1909).
  */
 let
-    dists = import ../../pins;
+    dists = import ../../dists;
     stdenv = dists.default.pkgs.stdenv;
     ## Some older packages aren't buildable on Apple M1, so we use closest match.
     isAppleM1 = stdenv.isDarwin && stdenv.isAarch64;

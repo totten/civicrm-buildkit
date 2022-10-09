@@ -1,6 +1,6 @@
 let
 
-    dists = import ../../pins;
+    dists = import ../../dists;
     pkgs = dists.default.pkgs;
     stdenv = pkgs.stdenv;
 

@@ -2,7 +2,7 @@
 # add all extensions needed as buildInputs and don't forget to load them in the php.ini above
 
 let
-    pkgs = import (import ../../pins).v1803.src {
+    pkgs = import (import ../../dists).v1803.src {
       config = {
         php = {
           mysqlnd = true;

@@ -3,7 +3,7 @@
  * It's derived from a recent mysql57 build script.
  */
 let
-  dists = import ../../pins;
+  dists = import ../../dists;
   nixpkgs = dists.v1909.pkgs;
   allPkgs = nixpkgs // pkgs;
   callPackage = path: overrides:

@@ -4,7 +4,7 @@
  * We rely on a mix of packages from Nix upstream v18.03 (`pkgs`) and custom forks (`bkpkgs`).
  */
 let
-    dists = import ../../pins;
+    dists = import ../../dists;
 
 in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
 

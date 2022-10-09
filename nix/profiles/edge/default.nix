@@ -4,7 +4,7 @@
  * The `dists` var provides a list of major releases of Nix upstream (eg v19.09 <=> dists.v1909).
  */
 let
-    dists = import ../../pins;
+    dists = import ../../dists;
 
 in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
 
