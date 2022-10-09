@@ -7,7 +7,7 @@ let
 
 in [
     pkgs.bzip2
-    dists.bkit.bknixProfile
+    dists.local.pkgs.bknixProfile
     pkgs.curl
     pkgs.gettext
     pkgs.git
@@ -21,7 +21,7 @@ in [
     pkgs.patch
     pkgs.rsync
     pkgs.subversion
-    dists.bkit.tzdata
+    dists.local.pkgs.tzdata
     pkgs.unzip
     pkgs.which
     pkgs.zip

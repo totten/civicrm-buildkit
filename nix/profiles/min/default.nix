@@ -11,13 +11,13 @@ let
 
 in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
 
-    (if isAppleM1 then dists.bkit.php74 else dists.bkit.php72)
+    (if isAppleM1 then dists.local.pkgs.php74 else dists.local.pkgs.php72)
     dists.default.pkgs.nodejs-14_x
     dists.default.pkgs.apacheHttpd
     dists.default.pkgs.mailhog
     dists.default.pkgs.memcached
     (if isAppleM1 then dists.default.pkgs.mysql80 else dists.default.pkgs.mysql57)
     dists.default.pkgs.redis
-    dists.bkit.transifexClient
+    dists.local.pkgs.transifexClient
 
 ]

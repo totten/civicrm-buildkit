@@ -67,6 +67,9 @@ rec {
     pkgs = import src {};
   };
 
-  bkit = import ../pkgs;
+  local = rec {
+    pkgs = import ../pkgs;
+  };
+
   default = v2205;
 }

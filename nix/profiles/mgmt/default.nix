@@ -8,7 +8,7 @@
 let
     dists = import ../../dists;
 in [
-    dists.bkit.bknixPhpstormAdvisor
-    dists.bkit.loco
-    dists.bkit.ramdisk
+    dists.local.pkgs.bknixPhpstormAdvisor
+    dists.local.pkgs.loco
+    dists.local.pkgs.ramdisk
 ]

@@ -8,7 +8,7 @@ in stdenv.mkDerivation rec {
 
     name = "bknix-profile";
     src = ./src;
-    buildInputs = [ pkgs.makeWrapper dists.bkit.tzdata ];
+    buildInputs = [ pkgs.makeWrapper dists.local.pkgs.tzdata ];
 
     installPhase = ''
         mkdir -p $out/bin

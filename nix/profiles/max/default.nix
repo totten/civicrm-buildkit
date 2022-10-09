@@ -8,13 +8,13 @@ let
 
 in (import ../base/default.nix) ++ (import ../mgmt/default.nix) ++ [
 
-    dists.bkit.php80
+    dists.local.pkgs.php80
     dists.default.pkgs.nodejs-14_x
     dists.default.pkgs.apacheHttpd
     dists.default.pkgs.mailhog
     dists.default.pkgs.memcached
     dists.default.pkgs.mysql80
     dists.default.pkgs.redis
-    dists.bkit.transifexClient
+    dists.local.pkgs.transifexClient
 
 ]
