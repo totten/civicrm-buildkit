@@ -63,9 +63,12 @@ done
 
 if [ "$DESKTOP" == "xfce4" ]; then
   if [ -z `which xfce4-terminal` ]; then
-    echo "Error: Only XFCE4 is currently supported"
+    echo "Error: XFCE4 was specified - but it was not found."
     exit 1
   else
     install_xfce4_launchers
   fi
+else
+    echo "Error: Only XFCE4 is currently supported"
+    exit 1
 fi
