@@ -3,8 +3,36 @@
 ## Register remotes across each civi repo.
 
 ############################################################################
-## Usage: do_repo <add-remotes|set-remotes|fetch> <relpath-to-repo> <remote-name> <gitlab-project-name>
-function do_repo() {
+
+## Usage: do_validate <rel-path> <expect-remotes>
+function do_validate() {
+  local RELDIR="$1"
+  local EXPECT="$2"
+
+  if [ ! -d "$RELDIR" ]; then
+    echo "Missing: $RELDIR"
+    EXITCODE=2
+    return
+  fi
+  if [ ! -d "$RELDIR/.git" ]; then
+    echo "Not a git repo: $RELDIR"
+    EXITCODE=2
+    return
+  fi
+
+  pushd "$RELDIR" >> /dev/null
+
+  ACTUAL=$(git remote | sort | xargs echo)
+  if [ "$ACTUAL" != "$EXPECT" ]; then
+    echo "Folder $RELDIR has incorrect remotes. (Expected: \"$EXPECT\"; Actual: \"$ACTUAL\")"
+    EXITCODE=2
+  fi
+
+  popd >> /dev/null
+}
+
+## Usage: do_remote <add-remotes|set-remotes> <relpath-to-repo> <remote-name> <gitlab-project-name>
+function do_remote() {
   local ACTION="$1"
   local RELDIR="$2"
   local REMOTE="$3"
@@ -14,23 +42,17 @@ function do_repo() {
     echo "($RELDIR) Skip"
     return
   fi
-
   pushd "$RELDIR" >> /dev/null
 
   case "$ACTION" in
     add-remotes)
       echo "($RELDIR) Add remote \"$REMOTE\" for \"${GIT_URL}\""
-      git remote add "$REMOTE" "${GIT_URL}"
+      $GUARD git remote add "$REMOTE" "${GIT_URL}"
       ;;
 
     set-remotes)
       echo "($RELDIR) Set remote \"$REMOTE\" to use \"${GIT_URL}\""
-      git remote set-url "$REMOTE" "${GIT_URL}"
-      ;;
-
-    fetch)
-      echo "($RELDIR) Fetch remote \"$REMOTE\""
-      git fetch "$REMOTE"
+      $GUARD git remote set-url "$REMOTE" "${GIT_URL}"
       ;;
 
     *)
@@ -41,39 +63,156 @@ function do_repo() {
   popd >> /dev/null
 }
 
+## Usage: do_fetch <relpath-to-repo> <remote-name>
+function do_fetch() {
+  local RELDIR="$1"
+  local REMOTE="$2"
+
+  if [ ! -d "$RELDIR" ]; then
+    echo "($RELDIR) Skip"
+    return
+  fi
+  pushd "$RELDIR" >> /dev/null
+
+  echo "($RELDIR) Fetch remote \"$REMOTE\""
+  $GUARD git fetch "$REMOTE"
+
+  popd >> /dev/null
+}
+
+## Usage: do_branch <relpath-to-repo> <tgt-repo> <tgt-branch> <src-repo> <src-branch>
+function do_branch() {
+  local RELDIR="$1"
+  local TGT_REPO="$2"
+  local TGT_BRANCH="$3"
+  local SRC_REPO="$4"
+  local SRC_BRANCH="$5"
+
+  if [ ! -d "$RELDIR" ]; then
+    echo "($RELDIR) Skip"
+    return
+  fi
+  pushd "$RELDIR" >> /dev/null
+
+  $GUARD git branch "$TGT_BRANCH" "$SRC_REPO/$SRC_BRANCH"
+  $GUARD git push -u "$TGT_REPO" "$TGT_BRANCH"
+
+  popd >> /dev/null
+}
+
 function fatal() {
   echo "$@" >&2
   exit 1
 }
 
+function do_help() {
+  echo "Work with fork remotes for all repos"
+  echo ""
+  echo "usage: $PROG <add-remotes | set-remotes> <REMOTE> [<URL_PREFIX>]"
+  echo "example: $PROG add-remotes myremote 'git@github.com:myuser/civicrm-'"
+  echo "example: $PROG set-remotes myremote 'git@lab.civicrm.org:myuser/'"
+  echo ""
+  echo "usage: $PROG fetch <REMOTES>..."
+  echo "example: $PROG fetch myremote"
+  echo ""
+  echo "usage: $PROG validate"
+  echo ""
+  echo "usage: $PROG branch <TGT/TGT> <SRC/SRC>"
+  echo "example: $PROG branch origin/5.99 origin/master"
+  echo ""
+  echo "usage: $PROG branch <TGT/TGT> <SRC/SRC>"
+  echo "example: $PROG branch origin/5.99 origin/master"
+  echo ""
+  echo "TIP: To preview an action, place --dry-run BEFORE the action."
+  echo "example: $PROG --dry-run fetch origin security"
+}
+
 ############################################################################
 
-ACTION="$1"
-REMOTE="$2"
-URL_PREFIX="$3"
-URL_SUFFIX=".git"
+PROG=$(basename "$0")
+EXITCODE=0
 
-if [ -z "$REMOTE" -o -z "$ACTION" ]; then
-  PROG=$(basename "$0")
-  echo "Work with fork remotes for all repos"
-  echo "usage: $PROG <add-remotes | set-remotes | fetch> <REMOTE> [<URL_PREFIX>]" >&2
-  echo "example: $PROG add-remotes myremote 'git@github.com:myuser/civicrm-'" >&2
-  echo "example: $PROG set-remotes myremote 'git@lab.civicrm.org:myuser/'" >&2
-  echo "example: $PROG fetch myremote" >&2
-  exit 1
+GUARD=
+if [ "$1" == "-n" -o "$1" == "--dry-run" ]; then
+  GUARD='echo DRY-RUN:'
+  shift
 fi
 
+ACTION="$1"
+shift
+
 case "$ACTION" in
-  add-remotes|set-remotes)
-    [ -z "$URL_PREFIX" ] && fatal "Missing required URL argument"
+  validate)
+    EXPECT_REMOTES=$(git remote | sort | xargs echo)
+
+    do_validate . "$EXPECT_REMOTES"
+    do_validate backdrop "$EXPECT_REMOTES"
+    do_validate drupal "$EXPECT_REMOTES"
+    do_validate drupal-8 "$EXPECT_REMOTES"
+    do_validate joomla "$EXPECT_REMOTES"
+    do_validate packages "$EXPECT_REMOTES"
+    do_validate WordPress "$EXPECT_REMOTES"
     ;;
+
+  add-remotes|set-remotes)
+    REMOTE="$1"
+    URL_PREFIX="$2"
+    URL_SUFFIX=".git"
+    [ -z "$REMOTE" ] && fatal "Missing remote"
+    [ -z "$URL_PREFIX" ] && fatal "Missing required URL argument"
+
+    do_remote "$ACTION" .          "$REMOTE" "${URL_PREFIX}core${URL_SUFFIX}"
+    do_remote "$ACTION" backdrop   "$REMOTE" "${URL_PREFIX}backdrop${URL_SUFFIX}"
+    do_remote "$ACTION" drupal     "$REMOTE" "${URL_PREFIX}drupal${URL_SUFFIX}"
+    do_remote "$ACTION" drupal-8   "$REMOTE" "${URL_PREFIX}drupal-8${URL_SUFFIX}"
+    do_remote "$ACTION" joomla     "$REMOTE" "${URL_PREFIX}joomla${URL_SUFFIX}"
+    do_remote "$ACTION" packages   "$REMOTE" "${URL_PREFIX}packages${URL_SUFFIX}"
+    do_remote "$ACTION" WordPress  "$REMOTE" "${URL_PREFIX}wordpress${URL_SUFFIX}"
+    ;;
+
+  fetch)
+    [ -z "$1" ] && fatal "Missing remote"
+
+    for REMOTE in "$@" ; do
+      do_fetch .         "$REMOTE"
+      do_fetch backdrop  "$REMOTE"
+      do_fetch drupal    "$REMOTE"
+      do_fetch drupal-8  "$REMOTE"
+      do_fetch joomla    "$REMOTE"
+      do_fetch packages  "$REMOTE"
+      do_fetch WordPress "$REMOTE"
+    done
+    ;;
+
+  branch)
+    TGT_REPO=$(dirname "$1")
+    TGT_BRANCH=$(basename "$1")
+    SRC_REPO=$(dirname "$2")
+    SRC_BRANCH=$(basename "$2")
+    [ -z "$TGT_REPO" -o -z "$TGT_BRANCH" -o "$TGT_REPO" == "." -o "$TGT_BRANCH" == "." ] && fatal "Missing or incomplete target (ex: 'tgt/1.23')"
+    [ -z "$SRC_REPO" -o -z "$SRC_BRANCH" -o "$SRC_REPO" == "." -o "$SRC_BRANCH" == "." ] && fatal "Missing or incomplete source (ex: 'src/1.23')"
+
+    do_branch .         "$TGT_REPO"     "$TGT_BRANCH"  "$SRC_REPO"     "$SRC_BRANCH"
+    do_branch backdrop  "$TGT_REPO" "1.x-$TGT_BRANCH"  "$SRC_REPO" "1.x-$SRC_BRANCH"
+    do_branch drupal    "$TGT_REPO" "6.x-$TGT_BRANCH"  "$SRC_REPO" "6.x-$SRC_BRANCH"
+    do_branch drupal    "$TGT_REPO" "7.x-$TGT_BRANCH"  "$SRC_REPO" "7.x-$SRC_BRANCH"
+    do_branch drupal-8  "$TGT_REPO"     "$TGT_BRANCH"  "$SRC_REPO"     "$SRC_BRANCH"
+    do_branch joomla    "$TGT_REPO"     "$TGT_BRANCH"  "$SRC_REPO"     "$SRC_BRANCH"
+    do_branch packages  "$TGT_REPO"     "$TGT_BRANCH"  "$SRC_REPO"     "$SRC_BRANCH"
+    do_branch WordPress "$TGT_REPO"     "$TGT_BRANCH"  "$SRC_REPO"     "$SRC_BRANCH"
+    ;;
+
+  "")
+    do_help >&2
+    exit 1
+    ;;
+
+  *)
+    echo "Unrecognized action \"$ACTION\"" >&2
+    do_help >&2
+    exit 1
+    ;;
+
 esac
 
-############################################################################
-do_repo "$ACTION" .          "$REMOTE" "${URL_PREFIX}core${URL_SUFFIX}"
-do_repo "$ACTION" WordPress  "$REMOTE" "${URL_PREFIX}wordpress${URL_SUFFIX}"
-do_repo "$ACTION" backdrop   "$REMOTE" "${URL_PREFIX}backdrop${URL_SUFFIX}"
-do_repo "$ACTION" drupal     "$REMOTE" "${URL_PREFIX}drupal${URL_SUFFIX}"
-do_repo "$ACTION" drupal-8   "$REMOTE" "${URL_PREFIX}drupal-8${URL_SUFFIX}"
-do_repo "$ACTION" joomla     "$REMOTE" "${URL_PREFIX}joomla${URL_SUFFIX}"
-do_repo "$ACTION" packages   "$REMOTE" "${URL_PREFIX}packages${URL_SUFFIX}"
+exit "$EXITCODE"
