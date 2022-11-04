@@ -8,6 +8,7 @@
   ],
   "autoload": {
     "psr-0": {
+      "Civi\\Buildkit": ["src/"],
       "Civi\\Civibuild": ["src/"]
     }
   },
@@ -17,7 +18,8 @@
     },
     "bin-dir": "bin",
     "allow-plugins": {
-      "civicrm/composer-downloads-plugin": true
+      "civicrm/composer-downloads-plugin": true,
+      "civicrm/composer-compile-plugin": true
     }
   },
   "require": {
@@ -26,6 +28,7 @@
     "civicrm/upgrade-test": "0.5",
     "drupal/coder": "dev-8.x-2.x-civi#5fa299b7790535b9f5098417f848a173cb6ce4d4",
     "civicrm/composer-downloads-plugin": "^3.0",
+    "civicrm/composer-compile-plugin": "^0.19.0",
     "squizlabs/php_codesniffer": ">=2.7 <4.0"
   },
   "repositories": [
@@ -61,6 +64,9 @@
       "phpunit-xml-cleanup": {"version": "0.2", "url": "https://raw.githubusercontent.com/civicrm/phpunit-xml-cleanup/v{$version}/bin/phpunit-xml-cleanup", "path": "extern/phpunit-xml-cleanup.php", "type": "file"},
       "pogo": {"version": "0.4.1", "url": "https://github.com/totten/pogo/releases/download/v{$version}/pogo-{$version}.phar", "path": "bin/pogo", "type": "phar"},
       "wp": {"version": "2.6.0", "url": "https://github.com/wp-cli/wp-cli/releases/download/v{$version}/wp-cli-{$version}.phar", "path": "bin/wp", "type": "phar"}
-    }
+    },
+    "compile": [
+      {"title":"tools/civicredits", "run": "@php-method \\Civi\\Buildkit\\Tools::install"}
+    ]
   }
 }

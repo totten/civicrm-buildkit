@@ -1,14 +1,13 @@
-#!/usr/bin/env pogo
+#!/usr/bin/env php
 <?php
 namespace Clippy;
 
 ## credits.php - Build a list of contributor names (with autocompletion, based on contributor-key.yml)
 
-#!require clippy/std: ~0.2.2
-#!require symfony/yaml: ~3.0
-
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Question\Question;
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $c = clippy()->register(plugins());
 /**

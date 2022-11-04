@@ -1,0 +1,7 @@
+{
+    "name": "civicrm/civicreditsphp",
+    "require": {
+        "clippy/std": "~0.2.2",
+        "symfony/yaml": "~3.0"
+    }
+}
