@@ -75,7 +75,7 @@ bin/wp.bat
 build/
 extern/
 node_modules/
-src/forkify/deps
+tools/*/vendor
 vagrant/*/.vagrant
 vendor/
 web/

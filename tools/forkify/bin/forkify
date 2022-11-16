@@ -1,4 +1,4 @@
-#!/usr/bin/env pogo
+#!/usr/bin/env php
 <?php
 
 ## The "forkify" command manages a series of related forks/branches across a handful of repos.
@@ -60,10 +60,6 @@
 ###############################################################################
 #### Imports
 
-#!depdir './deps'
-#!require clippy/std: ~0.3.5
-#!require clippy/container: '~1.2'
-
 namespace Clippy;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -71,6 +67,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
+  require_once dirname(__DIR__) . '/vendor/autoload.php';
+}
 
 $c = clippy()->register(plugins());
 

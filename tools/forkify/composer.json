@@ -1,0 +1,15 @@
+{
+    "name": "civicrm/forkify",
+    "autoload": {
+    },
+    "config": {
+        "platform": {
+            "php": "7.2"
+        },
+        "bin-dir": "bin"
+    },
+    "require": {
+        "clippy/container": "~1.4.2",
+        "clippy/std": "~0.3.5"
+    }
+}
