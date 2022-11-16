@@ -17,6 +17,7 @@
     },
     "bin-dir": "bin",
     "allow-plugins": {
+      "civicrm/composer-compile-plugin": true,
       "civicrm/composer-downloads-plugin": true
     }
   },
@@ -25,6 +26,7 @@
     "totten/php-symbol-diff": "dev-master#54f869ca68a3cd75f3386f8490870369733d2c23",
     "civicrm/upgrade-test": "0.5",
     "drupal/coder": "dev-8.x-2.x-civi#5fa299b7790535b9f5098417f848a173cb6ce4d4",
+    "civicrm/composer-compile-plugin": "~0.19 || ~1.0",
     "civicrm/composer-downloads-plugin": "^3.0",
     "squizlabs/php_codesniffer": ">=2.7 <4.0"
   },
