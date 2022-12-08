@@ -1,4 +1,4 @@
-#!/usr/bin/env pogo
+#!/usr/bin/env php
 <?php
 namespace Clippy;
 
@@ -31,6 +31,10 @@ use wapmorgan\UnifiedArchive\UnifiedArchive;
 #!require clippy/std: ~0.3.5
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
+if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
+  require_once dirname(__DIR__) . '/vendor/autoload.php';
+}
 
 ###########################################
 ## Printer - How to display diffs
