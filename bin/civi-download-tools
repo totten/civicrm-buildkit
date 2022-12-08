@@ -361,6 +361,25 @@ function install_joomlatools_console() {
 }
 
 ###############################################################################
+## usage: install_tool <src_path>
+## ex: install_tool "tools/forkify" bin/forkify
+function install_tool() {
+  local TOOL="$1"
+  shift
+
+  pushd "$PRJDIR/$TOOL" >> /dev/null
+    if [ -n "$IS_FORCE" -o ! -e composer.lock -o ! -e vendor/autoload.php -o composer.lock -nt vendor/autoload.php ]; then
+      [ -e vendor/autoload.php ] && rm vendor/autoload.php
+      "$PRJDIR/bin/composer" install
+    fi
+
+    ls bin | grep -v '~' | while read BIN ; do
+      make_link "$PRJDIR/bin" "../$TOOL/bin/$BIN" "$BIN"
+    done
+  popd >> /dev/null
+}
+
+###############################################################################
 ## Determine the function to handle system package installation
 function get_system_installer() {
   if [ -n "$DISTRIB_CODENAME" ]; then
@@ -706,6 +725,11 @@ pushd $PRJDIR >> /dev/null
     "$PRJDIR/bin/composer" install
     cat composer.json composer.lock | php -r 'echo md5(file_get_contents("php://stdin"));' > "$TMPDIR/composer-data.md5"
   fi
+
+  ## Download recursive dependencies (via composer)
+  for TOOL in "tools/"* ; do
+    [ -d "$TOOL" ] && install_tool "$TOOL"
+  done
 
   ## Download dependencies (via npm)
   if which npm > /dev/null ; then
