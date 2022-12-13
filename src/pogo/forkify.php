@@ -67,6 +67,7 @@
 namespace Clippy;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -77,6 +78,7 @@ $c = clippy()->register(plugins());
 ###############################################################################
 #### Commands
 $globalOptions = '[-N|--dry-run] [-A|--expect-all] [-S|--step] [--root=]';
+$branchOverrideOptions = '[--core=] [--packages=] [--backdrop=] [--drupal=] [--joomla=] [--wordpress=]';
 
 $c['app']->command("remote:add $globalOptions remote url-prefix", function ($remote, $urlPrefix, SymfonyStyle $io, Repos $repos, callable $passthru) {
   $remoteUrls = $repos->remoteUrls($remote, $urlPrefix);
@@ -176,16 +178,11 @@ $c['app']->command("branch:push $globalOptions [-f|--force] [-u|--set-upstream] 
   });
 })->setAliases(['push']);
 
-$c['app']->command("branch:checkout $globalOptions branch [--core=] [--packages=] [--backdrop=] [--drupal=] [--joomla=] [--wordpress=]", function ($branch, SymfonyStyle $io, Repos $repos, callable $passthru, InputInterface $input) {
+$c['app']->command("branch:checkout $globalOptions $branchOverrideOptions branch", function ($branch, SymfonyStyle $io, Repos $repos, callable $passthru) {
   $branches = array_filter($repos->branches($branch), function($b) {
       return $b['name'] !== 'drupal@6.x';
   });
-  $repos->walk($branches, function ($name, $path, $remote, $branch) use ($io, $input, $passthru) {
-    if ($input->hasOption($name) && $input->getOption($name)) {
-      // Caller requested a different branch for this repo (e.g. "givi checkout master --core=my-wip-pr")
-      $branch = $input->getOption($name);
-    }
-
+  $repos->walk($branches, function ($name, $path, $remote, $branch) use ($io, $passthru) {
     $io->writeln("<comment>$path</comment>: Checkout branch <comment>$branch</comment>");
     $passthru('git checkout {{0|s}}', [$branch]);
   });
@@ -210,6 +207,61 @@ $c['app']->command("status $globalOptions", function (SymfonyStyle $io, Repos $r
   });
 })->setDescription("Display local status across Civi-related repos");
 
+$c['app']->command("wf:new $globalOptions [baseBranch]", function (?string $baseBranch = NULL, ?SymfonyStyle $io = NULL, ?Repos $repos = NULL, ?TaskPlan $newTaskPlan = NULL) {
+    if (empty($baseBranch)) {
+    $baseBranch = $io->ask('What is target version/branch (eg "master" or "5.57")?', 'master', function ($s) {
+      if (!preg_match('/^[a-z0-9\-\.]+$/', $s)) {
+        throw new InvalidOptionException("Use a simple name (alphanumeric and dashes).");
+      }
+      return $s;
+    });
+  }
+
+  $branches = array_filter($repos->branches("origin/$baseBranch"), function($b) {
+    return $b['name'] !== 'drupal@6.x';
+  });
+  $branchesByRepoName = [];
+  foreach ($branches as $branch) {
+    $branchesByRepoName[$branch['name']] = $branch;
+  }
+
+  $repoName = $io->askQuestion(new ChoiceQuestion('Which repo will be patched?', array_column($branches, 'name'), 0));
+  [$repoOptionName] = explode('@', $repoName);
+
+  $featureName = $io->ask("What would you like to call this feature branch?", NULL, function ($s) {
+    if (!preg_match('/^[a-z0-9\-]+$/', $s)) {
+      throw new InvalidOptionException("Use a simple name (alphanumeric and dashes).");
+    }
+    return $s;
+  });
+  $newBranchName = $branchesByRepoName[$repoName]['branch'] . '-' . $featureName;
+
+  $newTaskPlan->addSubcommand('Update and checkout branches', "pull {{LOCAL}} {{REMOTE}}", [
+    'LOCAL' => $baseBranch,
+    'REMOTE' => "origin/$baseBranch",
+  ]);
+  $newTaskPlan->addPassthru('Update composer', 'cd {{PWD|s}} && composer install', [
+    'PWD' => $branchesByRepoName['core']['path'],
+  ]);
+  $newTaskPlan->addPassthru("Create new branch", "cd {{PWD|s}} && git checkout -b {{NAME}}", [
+    'PWD' => $branchesByRepoName[$repoName]['path'],
+    'NAME' => $newBranchName,
+  ]);
+
+  $io->title("Plan");
+  $newTaskPlan->printAll();
+  $io->writeln("");
+
+  if ($io->confirm("Proceed?")) {
+    $newTaskPlan->runAll();
+  }
+  else {
+    throw new \RuntimeException("User aborted");
+  }
+
+})->setAliases(['begin', 'new'])
+  ->setDescription('Begin work a new feature-branch');
+
 $c['app']->command('wf:unimplemented', function (SymfonyStyle $io) {
   $io->error([
     "The \"givi\" command included some workflow helpers (\"givi begin\", \"givi resume\", \"givi review\").",
@@ -219,7 +271,9 @@ $c['app']->command('wf:unimplemented', function (SymfonyStyle $io) {
     // them unless someone actually uses them.
   ]);
   return 1;
-})->setAliases(['begin', 'resume', 'review'])->setDescription("(Unimplemented)");
+})->setAliases(['resume', 'review'])->setDescription("(Unimplemented)");
+
+
 
 // Not yet tested
 // $c['app']->command("wf:rc $globalOptions", function (callable $runSubcommand) {
@@ -253,6 +307,97 @@ $c['app']->command('wf:unimplemented', function (SymfonyStyle $io) {
 
 ###############################################################################
 #### Services (Helpers/Utilities)
+
+class TaskPlan {
+
+  /**
+   * @var \Clippy\Application
+   */
+  protected $app;
+
+  /**
+   * @var \Symfony\Component\Console\Style\SymfonyStyle
+   */
+  protected $io;
+
+  /**
+   * @var \Symfony\Component\Console\Input\InputInterface
+   */
+  protected $input;
+
+  /**
+   * @var \Symfony\Component\Console\Output\OutputInterface
+   */
+  protected $output;
+
+  /**
+   * @var callable
+   */
+  protected $passthru;
+
+  /**
+   * @var callable
+   */
+  protected $runSubcommand;
+
+  /**
+   * @var Cmdr
+   */
+  protected $cmdr;
+
+  private $_plans = [];
+
+  public function addPassthru(string $desc, string $cmd, array $params): TaskPlan {
+    $this->_plans[] = [
+      'desc' => '<info>' . $desc . '</info> (' . $this->cmdr->escape($cmd, $params) . ')',
+      'callable' => function() use ($cmd, $params) {
+        call_user_func($this->passthru, $cmd, $params);
+      }
+    ];
+    return $this;
+  }
+
+  public function addSubcommand(string $desc, string $cmd, array $params = []): TaskPlan {
+    $opts = array_filter([
+      $this->input->getOption('dry-run') ? '--dry-run' : NULL,
+      $this->input->getOption('expect-all') ? '--expect-all' : NULL,
+      $this->input->getOption('step') ? '--step' : NULL,
+    ]);
+    $cmdParts = explode(" ", $cmd, 2);
+    array_splice($cmdParts, 1, 0, $opts);
+    $fullCmd = $this->cmdr->escape(implode(' ', $cmdParts), $params);
+
+    $this->_plans[] = [
+      'desc' => '<info>' . $desc . '</info> (givi ' . $fullCmd . ')',
+      'callable' => function() use ($fullCmd) {
+        $this->app->runCommand($fullCmd, $this->output);
+        // call_user_func($this->passthru, $cmd, $params);
+      }
+    ];
+    return $this;
+
+    // $this->_plans[] = [
+    //   'desc' => '<info>' . $desc . '</info> (givi ' . $this->cmdr->escape($cmd, $params) . ')',
+    //   'callable' => function() use ($cmd, $params) {
+    //     call_user_func($this->runSubcommand, $cmd, $params);
+    //   }
+    // ];
+    // return $this;
+  }
+
+  public function printAll(): void {
+    foreach ($this->_plans as $n => $plan) {
+        $this->io->writeln('  ' . (1+$n) . ". " . $plan['desc']);
+    }
+  }
+
+  public function runAll(): void {
+    foreach ($this->_plans as $n => $plan) {
+      call_user_func($plan['callable']);
+    }
+  }
+
+}
 
 /**
  * Get information about (and send tasks to) the various Civi-related repos.
@@ -308,7 +453,7 @@ class Repos {
    */
   public function branches(string $branchExpr): array {
     [$remote, $branch] = $this->parseRemoteBranch($branchExpr);
-    return rekeyItems(['name', 'path', 'remote', 'branch'], [
+    $results = rekeyItems(['name', 'path', 'remote', 'branch'], [
       ['core', $this->getPath('.'), $remote, $branch],
       ['backdrop@1.x', $this->getPath('backdrop'), $remote, "1.x-$branch"],
       ['drupal@6.x', $this->getPath('drupal'), $remote, "6.x-$branch"],
@@ -318,6 +463,16 @@ class Repos {
       ['packages', $this->getPath('packages'), $remote, $branch],
       ['wordpress', $this->getPath('WordPress'), $remote, $branch],
     ]);
+
+    foreach ($results as &$result) {
+      [$optionName] = explode('@', $result['name']);
+      if ($this->input->hasOption($optionName) && $this->input->getOption($optionName)) {
+        // Caller requested a different branch for this repo (e.g. "givi checkout master --core=my-wip-pr")
+        $result['branch'] = $this->input->getOption($optionName);
+      }
+    }
+
+    return $results;
   }
 
   /**
@@ -404,6 +559,8 @@ class Repos {
 
 $c['repos'] = $c->autowiredObject(new Repos());
 
+$c['newTaskPlan'] = $c->autowiredObject(['clone' => TRUE, 'strict' => TRUE], new TaskPlan());
+
 $c['pickMergeOpts()'] = function(SymfonyStyle $io, InputInterface $input) {
   if (!$input->hasOption('ff-only') || !$input->hasOption('merge') || !$input->hasOption('rebase')) {
     throw new \Exception("Command is defined incorrectly. Must have options [--ff-only] [--merge] [--rebase]");
@@ -437,18 +594,18 @@ $c['pickMergeOpts()'] = function(SymfonyStyle $io, InputInterface $input) {
   throw new \Exception("Must specify an update style: --merge or --rebase or --ff-only");
 };
 
-// $c['runSubcommand()'] = function (string $cmd, array $params = [], ?Cmdr $cmdr = NULL, ?Application $app = NULL, ?InputInterface $input = NULL) {
-//   $opts = array_filter([
-//     $input->getOption('dry-run') ? '--dry-run' : NULL,
-//     $input->getOption('expect-all') ? '--expect-all' : NULL,
-//     $input->getOption('step') ? '--step' : NULL,
-//   ]);
-//   $cmdParts = explode(" ", $cmd, 2);
-//   array_splice($cmdParts, 1, 0, $opts);
-//   $fullCmd = $cmdr->escape(implode(' ', $cmdParts), $params);
-//   echo "[[ TODO: $fullCmd ]]\n";
-//   // $app->runCommand($fullCmd);
-// };
+$c['runSubcommand()'] = function (string $cmd, array $params = [], ?Cmdr $cmdr = NULL, ?Application $app = NULL, ?InputInterface $input = NULL) {
+  $opts = array_filter([
+    $input->getOption('dry-run') ? '--dry-run' : NULL,
+    $input->getOption('expect-all') ? '--expect-all' : NULL,
+    $input->getOption('step') ? '--step' : NULL,
+  ]);
+  $cmdParts = explode(" ", $cmd, 2);
+  array_splice($cmdParts, 1, 0, $opts);
+  $fullCmd = $cmdr->escape(implode(' ', $cmdParts), $params);
+  echo "[[ TODO: $fullCmd ]]\n";
+  // $app->runCommand($fullCmd);
+};
 
 $c['passthru()'] = function (string $cmd, array $params = [], ?Cmdr $cmdr = NULL, ?InputInterface $input = NULL, ?SymfonyStyle $io = NULL) {
   $cmdDesc = '<comment>$</comment> ' . $cmdr->escape($cmd, $params) . ' <comment>[[in ' . getcwd() . ']]</comment>';
