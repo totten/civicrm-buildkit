@@ -2,13 +2,16 @@
 ##
 ## nix-build -A min && docker load < result && docker run -it bknix-min:latest /bin/bash
 ##
+## git clone https://github.com/civicrm/civicrm-buildkit $HOME/tmp/qqq
+## nix-build -A min && docker load < result && docker run -v $HOME/tmp/qqq:/srv -it bknix-min:latest /bin/bash
+##
 ## See also:
 ##
 ## https://ryantm.github.io/nixpkgs/builders/images/dockertools/
 
 let
 
-    pkgs = (import ../pins).default;
+    pkgs = (import ../pins).v2305;
     pkgsLinux = pkgs; # pkgsLinux ? import <nixpkgs> { system = "x86_64-linux" }
     stdenv = pkgs.stdenv;
     bkpkgs = import ../pkgs;
@@ -20,12 +23,18 @@ in with pkgs.dockerTools; rec {
     name = "bknix-base";
     tag = "latest";
 
-    contents = [
+    copyToRoot = [
       usrBinEnv
       binSh
-#      caCertificates
+      caCertificates
       fakeNss
     ];
+
+    runAsRoot = ''
+      #!${stdenv.shell}
+      mkdir /tmp
+      chmod 1777 /tmp
+    '';
   };
 
   std = buildImage {
@@ -36,13 +45,10 @@ in with pkgs.dockerTools; rec {
     fromImageName = null;
     fromImageTag = "latest";
 
-    contents = pkgs.buildEnv {
+    copyToRoot = pkgs.buildEnv {
       name = "image-root";
-      paths = [
-        pkgs.coreutils
-        pkgs.bashInteractive
-      ] ++ profiles.base ++ profiles.mgmt;
-      pathsToLink = [ "/bin" ];
+      paths = profiles.base ++ profiles.mgmt ++ profiles.shell;
+      pathsToLink = [ "/share" "/bin" ];
     };
 
   };
@@ -55,22 +61,39 @@ in with pkgs.dockerTools; rec {
     fromImageName = null;
     fromImageTag = "latest";
 
-    contents = pkgs.buildEnv {
+    copyToRoot = pkgs.buildEnv {
       name = "image-root";
-      paths = [
-        bkpkgs.php73
-        pkgs.apacheHttpd
-        pkgs.mailhog
-        pkgs.memcached
-        pkgs.mysql57
-        pkgs.redis
-      ];
-      pathsToLink = [ "/bin" ];
+      paths = profiles.min;
+      pathsToLink = [ "/share" "/bin" ];
     };
 
 #    config = {
 #      Cmd = [ "${bkpkgs.ramdisk}/bin/ramdisk help" ];
 #    };
   };
+
+  mind = buildNixShellImage {
+    drv = (import ../default.nix).min;
+  };
+
+#  minc = buildContainer {
+#    args = [
+#      (with pkgs;
+#        writeScript "run.sh" ''
+#          #!${bash}/bin/bash
+#          exec ${bash}/bin/bash
+#        '').outPath
+#    ];
+
+#    mounts = {
+#      "/data" = {
+#        type = "none";
+#        source = "/var/lib/mydata";
+#        options = [ "bind" ];
+#      };
+#    };
+
+#    readonly = false;
+#  };
 
 }
