@@ -9,6 +9,8 @@ in [
     pkgs.ansi2html
     pkgs.bzip2
     dists.bkit.bknixProfile
+    pkgs.cacert
+    pkgs.coreutils
     pkgs.curl
     pkgs.gettext
     pkgs.git
@@ -16,6 +18,7 @@ in [
     pkgs.gnugrep
     pkgs.gnused
     pkgs.gnutar
+    pkgs.gzip
     pkgs.hostname
     pkgs.moreutils
     pkgs.ncurses
