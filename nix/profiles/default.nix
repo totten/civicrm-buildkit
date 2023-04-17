@@ -17,6 +17,11 @@ rec {
     */
    mgmt = import ./mgmt/default.nix;
 
+   /**
+    * bknix-specific management utilities
+    */
+   shell = import ./shell/default.nix;
+
    /* ---------- Full profiles ---------- */
 
    /**
