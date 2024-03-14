@@ -1,0 +1,72 @@
+branches:
+  dev:
+    branch: master
+    environments:
+      backdrop-clean:   {min: php74m57, max: php82m80}
+      drupal-clean:     {min: php74m57, max: php82m80, edge: php83m80}
+      drupal9-clean:    {min: php74m57, max: php81m80}
+      drupal10-clean:   {min: php81m57, max: php82m80}
+      standalone-clean: {min: php74m57, max: php82m80}
+      wp-demo:          {min: php74m57, max: php82m80}
+
+    ## You should maintain `nix/profiles/default.nix` for suggested min/max aliases.
+
+  rc:
+    branch: 5.72
+    environments:
+      backdrop-clean:   {min: php74m57, max: php81m80}
+      drupal-clean:     {min: php74m57, max: php81m80}
+      drupal9-clean:    {min: php74m57, max: php81m80}
+      drupal10-clean:   {min: php81m57, max: php81m80}
+      standalone-clean: {min: php74m57, max: php81m80}
+      wp-demo:          {min: php74m57, max: php81m80}
+
+  stable:
+    branch: 5.71
+    environments:
+      backdrop-clean:   {min: php74m57, max: php81m80}
+      drupal-clean:     {min: php74m57, max: php81m80}
+      drupal9-clean:    {min: php74m57, max: php81m80}
+      drupal10-clean:   {min: php81m57, max: php81m80}
+      standalone-clean: {min: php74m57, max: php81m80}
+      wp-demo:          {min: php74m57, max: php81m80}
+
+  esr0:
+    branch: 5.69
+    environments:
+      backdrop-clean:   {min: php73m57, max: php81m80}
+      drupal-clean:     {min: php73m57, max: php81m80}
+      drupal9-clean:    {min: php74m57, max: php81m80}
+      drupal10-clean:   {min: php81m57, max: php81m80}
+      standalone-clean: {}
+      wp-demo:          {min: php73m57, max: php81m80}
+
+  esr1:
+    branch: 5.63
+    environments:
+      backdrop-clean:   {min: php73m57, max: php81m80}
+      drupal-clean:     {min: php73m57, max: php81m80}
+      drupal9-clean:    {min: php74m57, max: php81m80}
+      drupal10-clean:   {}
+      standalone-clean: {}
+      wp-demo:          {min: php73m57, max: php81m80}
+
+  esr2:
+    branch: 5.57
+    environments:
+      backdrop-clean:   {min: php73m57, max: php81m80}
+      drupal-clean:     {min: php73m57, max: php81m80}
+      drupal9-clean:    {min: php74m57, max: php81m80}
+      drupal10-clean:   {}
+      standalone-clean: {}
+      wp-demo:          {min: php73m57, max: php81m80}
+
+  esr3:
+    branch: 5.51
+    environments:
+      backdrop-clean:   {min: php73m57, max: php80m80}
+      drupal-clean:     {min: php73m57, max: php80m80}
+      drupal9-clean:    {min: php73m57, max: php80m80}
+      drupal10-clean:   {}
+      standalone-clean: {}
+      wp-demo:          {min: php73m57, max: php80m80}
