@@ -1,0 +1,21 @@
+# Auto-generated from CiviCRM-Civix-Matrix.matrix.php via update-matrices.php
+
+---
+CIVIVER:
+- master
+- 5.69
+- 5.57
+BLDTYPE:
+- backdrop-clean
+- drupal-clean
+- drupal9-clean
+- drupal10-clean
+- wp-demo
+BKPROF:
+- php73m57
+- php74m57
+- php81m57
+- php81m80
+- php82m80
+- php83m80
+...

@@ -1,0 +1,30 @@
+# Auto-generated from CiviCRM-Core-Matrix.matrix.php via update-matrices.php
+
+---
+CIVIVER:
+- master
+- 5.72
+- 5.71
+- 5.69
+BLDTYPE:
+- backdrop-clean
+- drupal-clean
+- drupal9-clean
+- drupal10-clean
+- standalone-clean
+- wp-demo
+BKPROF:
+- php73m57
+- php74m57
+- php81m80
+- php82m80
+- php83m80
+SUITES:
+- meta-oddball
+- phpunit-api3
+- phpunit-api4
+- phpunit-civi
+- phpunit-core-exts
+- phpunit-crm
+- phpunit-e2e
+...
