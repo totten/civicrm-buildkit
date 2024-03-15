@@ -10,10 +10,11 @@ String signature(Map item, List keys) {
     return sig
 }
 
-def yamlFilePath = "${WORKSPACE}/src/jobs/CiviCRM-Core-Matrix.yaml"
-def yamlFile = new File(yamlFilePath)
-def yamlSlurper = new YamlSlurper()
-def yamlData = yamlSlurper.parseText(yamlFile.text)
+def yamlData = readYaml file: 'src/jobs/CiviCRM-Core-Matrix.yaml'
+// def yamlFilePath = "${WORKSPACE}/src/jobs/CiviCRM-Core-Matrix.yaml"
+// def yamlFile = new File(yamlFilePath)
+// def yamlSlurper = new YamlSlurper()
+// def yamlData = yamlSlurper.parseText(yamlFile.text)
 def expectedItems = yamlData.permutations
 
 def keys = expectedItems[0].keySet().toList()
