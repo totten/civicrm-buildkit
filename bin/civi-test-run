@@ -67,7 +67,6 @@ function show_help() {
   echo "  --group <g>         Focus on tests with a particular @group (if supported by suite)"
   echo "  --filter <regex>    Filter which test functions to run (if supported by suite)"
   echo "  <suites>            A list of one more of the following:"
-  echo "                        - all"
   echo "                        - karma"
   echo "                        - mixin"
   echo "                        - phpunit-api3"
@@ -83,6 +82,10 @@ function show_help() {
   echo "                        - phpunit-flexmailer"
   echo "                        - upgrade"
   echo "                        - upgrade@4.7.30:10"
+  echo "                      These special values call multiple suites:"
+  echo "                        - all"
+  echo "                        - meta-e2e (upgrade, karma, mixin, phpunit-e2e, phpunit-core-exts)"
+  echo "                        - meta-oddball (upgrade, karma, mixin)"
   echo
   echo "example: Run the KarmaJS and DB-upgrade tests on D7/Civi-Master build"
   echo "  $PROG -b dmaster -j /tmp/junit-output karma upgrade"
@@ -401,6 +404,18 @@ if [ "$SUITES" = "all" ]; then
   popd >> /dev/null
 elif [[ " $SUITES " =~ \ all\  ]]; then
   echo "The \"all\" target should not be mixed with other targets."
+  exit 3
+elif [ "$SUITES" = "meta-oddball" ]; then
+  SUITES="upgrade karma mixin"
+  ## In an ideal world this would also include phpunit-wordpress, phpunit-drupal, etc (*as appropriate*).
+elif [[ " $SUITES " =~ \ meta-oddball\  ]]; then
+  echo "The \"meta-oddball\" target should not be mixed with other targets."
+  exit 3
+elif [ "$SUITES" = "meta-e2e" ]; then
+  SUITES="upgrade karma mixin phpunit-e2e phpunit-core-exts"
+  ## In an ideal world this would also include phpunit-wordpress, phpunit-drupal, etc (*as appropriate*).
+elif [[ " $SUITES " =~ \ meta-e2e\  ]]; then
+  echo "The \"meta-e2e\" target should not be mixed with other targets."
   exit 3
 fi
 
