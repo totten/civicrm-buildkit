@@ -160,7 +160,7 @@ function formatGroovy(string $name, array $matrix): string {
   // $items = implode("\n", array_map(__NAMESPACE__ . '\\formatGroovyObj', $matrix));
 
   return <<<TEMPLATE
-import groovy.yaml.YamlSlurper
+// import groovy.yaml.YamlSlurper
 
 String signature(Map item, List keys) {
     def sig = ''
@@ -170,10 +170,11 @@ String signature(Map item, List keys) {
     return sig
 }
 
-def yamlFilePath = "\${WORKSPACE}/src/jobs/$name.yaml"
-def yamlFile = new File(yamlFilePath)
-def yamlSlurper = new YamlSlurper()
-def yamlData = yamlSlurper.parseText(yamlFile.text)
+def yamlData = readYaml file: 'src/jobs/$name.yaml'
+// def yamlFilePath = "\${WORKSPACE}/src/jobs/$name.yaml"
+// def yamlFile = new File(yamlFilePath)
+// def yamlSlurper = new YamlSlurper()
+// def yamlData = yamlSlurper.parseText(yamlFile.text)
 def expectedItems = yamlData.permutations
 
 def keys = expectedItems[0].keySet().toList()
