@@ -1,6 +1,7 @@
 /* Auto-generated from CiviCRM-Civix-Matrix.matrix.php via update-matrices.php */
 
 // import groovy.yaml.YamlSlurper
+// import groovy.json.JsonSlurper
 
 String signature(Map item, List keys) {
     def sig = ''
@@ -10,12 +11,10 @@ String signature(Map item, List keys) {
     return sig
 }
 
-def yamlData = readYaml file: 'src/jobs/CiviCRM-Civix-Matrix.yaml'
-// def yamlFilePath = "${WORKSPACE}/src/jobs/CiviCRM-Civix-Matrix.yaml"
-// def yamlFile = new File(yamlFilePath)
-// def yamlSlurper = new YamlSlurper()
-// def yamlData = yamlSlurper.parseText(yamlFile.text)
-def expectedItems = yamlData.permutations
+def dataFile = new File("${WORKSPACE}/src/jobs/CiviCRM-Civix-Matrix.json")
+def dataSlurper = new groovy.json.JsonSlurper()
+def data = dataSlurper.parseText(dataFile.text)
+def expectedItems = data.permutations
 
 def keys = expectedItems[0].keySet().toList()
 def expectedSignatures = expectedItems.collect { item ->

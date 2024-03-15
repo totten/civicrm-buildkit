@@ -1,0 +1,124 @@
+{
+    "CIVIVER": [
+        "master",
+        5.69,
+        5.57
+    ],
+    "BLDTYPE": [
+        "backdrop-clean",
+        "drupal-clean",
+        "drupal9-clean",
+        "drupal10-clean",
+        "wp-demo"
+    ],
+    "BKPROF": [
+        "php73m57",
+        "php74m57",
+        "php81m57",
+        "php81m80",
+        "php82m80",
+        "php83m80"
+    ],
+    "permutation": {
+        "0": {
+            "CIVIVER": "master",
+            "BLDTYPE": "backdrop-clean",
+            "BKPROF": "php74m57"
+        },
+        "1": {
+            "CIVIVER": "master",
+            "BLDTYPE": "backdrop-clean",
+            "BKPROF": "php82m80"
+        },
+        "2": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal-clean",
+            "BKPROF": "php74m57"
+        },
+        "3": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal-clean",
+            "BKPROF": "php82m80"
+        },
+        "4": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal-clean",
+            "BKPROF": "php83m80"
+        },
+        "5": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal9-clean",
+            "BKPROF": "php74m57"
+        },
+        "6": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal9-clean",
+            "BKPROF": "php81m80"
+        },
+        "7": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal10-clean",
+            "BKPROF": "php81m57"
+        },
+        "8": {
+            "CIVIVER": "master",
+            "BLDTYPE": "drupal10-clean",
+            "BKPROF": "php82m80"
+        },
+        "11": {
+            "CIVIVER": "master",
+            "BLDTYPE": "wp-demo",
+            "BKPROF": "php74m57"
+        },
+        "12": {
+            "CIVIVER": "master",
+            "BLDTYPE": "wp-demo",
+            "BKPROF": "php82m80"
+        },
+        "14": {
+            "CIVIVER": 5.69,
+            "BLDTYPE": "backdrop-clean",
+            "BKPROF": "php81m80"
+        },
+        "15": {
+            "CIVIVER": 5.69,
+            "BLDTYPE": "drupal-clean",
+            "BKPROF": "php73m57"
+        },
+        "17": {
+            "CIVIVER": 5.69,
+            "BLDTYPE": "drupal9-clean",
+            "BKPROF": "php74m57"
+        },
+        "20": {
+            "CIVIVER": 5.69,
+            "BLDTYPE": "drupal10-clean",
+            "BKPROF": "php81m80"
+        },
+        "21": {
+            "CIVIVER": 5.69,
+            "BLDTYPE": "wp-demo",
+            "BKPROF": "php73m57"
+        },
+        "24": {
+            "CIVIVER": 5.57,
+            "BLDTYPE": "backdrop-clean",
+            "BKPROF": "php81m80"
+        },
+        "25": {
+            "CIVIVER": 5.57,
+            "BLDTYPE": "drupal-clean",
+            "BKPROF": "php73m57"
+        },
+        "27": {
+            "CIVIVER": 5.57,
+            "BLDTYPE": "drupal9-clean",
+            "BKPROF": "php74m57"
+        },
+        "29": {
+            "CIVIVER": 5.57,
+            "BLDTYPE": "wp-demo",
+            "BKPROF": "php73m57"
+        }
+    }
+}
