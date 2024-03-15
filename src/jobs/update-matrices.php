@@ -121,7 +121,7 @@ function printMatrix(array $matrix): void {
   }
 }
 
-function writeYaml(string $file, array $matrix, ?string $comment = NULL): void {
+function writeYaml(string $file, string $name, array $matrix, ?string $comment = NULL): void {
   $buf = '';
   if ($comment !== NULL) {
     $buf .= '# ' . $comment . "\n\n";
@@ -132,6 +132,9 @@ function writeYaml(string $file, array $matrix, ?string $comment = NULL): void {
 
   $buf .= yaml_emit($yaml);
   file_put_contents(__DIR__ . '/' . basename($file), $buf);
+
+  $buf = json_encode($yaml, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+  file_put_contents(__DIR__ . '/' . $name . '.matrix.json', $buf);
 }
 
 function writeGroovy(string $file, string $name, array $matrix, ?string $comment = NULL): void {
@@ -161,6 +164,7 @@ function formatGroovy(string $name, array $matrix): string {
 
   return <<<TEMPLATE
 // import groovy.yaml.YamlSlurper
+// import groovy.json.JsonSlurper
 
 String signature(Map item, List keys) {
     def sig = ''
@@ -170,12 +174,10 @@ String signature(Map item, List keys) {
     return sig
 }
 
-def yamlData = readYaml file: 'src/jobs/$name.yaml'
-// def yamlFilePath = "\${WORKSPACE}/src/jobs/$name.yaml"
-// def yamlFile = new File(yamlFilePath)
-// def yamlSlurper = new YamlSlurper()
-// def yamlData = yamlSlurper.parseText(yamlFile.text)
-def expectedItems = yamlData.permutations
+def dataFile = new File("\${WORKSPACE}/src/jobs/$name.json")
+def dataSlurper = new groovy.json.JsonSlurper()
+def data = dataSlurper.parseText(dataFile.text)
+def expectedItems = data.permutations
 
 def keys = expectedItems[0].keySet().toList()
 def expectedSignatures = expectedItems.collect { item ->
@@ -195,7 +197,7 @@ TEMPLATE;
 
 function writeJob(string $name, array $matrix, ?string $comment = NULL): void {
   printf("Generate matrix for %s\n", $name);
-  writeYaml("$name.matrix.yaml", $matrix, $comment);
+  writeYaml("$name.matrix.yaml", $name, $matrix, $comment);
   writeGroovy("$name.matrix.groovy", $name, $matrix, $comment);
 }
 
