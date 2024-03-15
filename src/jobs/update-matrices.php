@@ -121,21 +121,25 @@ function printMatrix(array $matrix): void {
   }
 }
 
-function writeAxes(string $file, array $axes, ?string $comment = NULL): void {
+function writeYaml(string $file, array $matrix, ?string $comment = NULL): void {
   $buf = '';
   if ($comment !== NULL) {
     $buf .= '# ' . $comment . "\n\n";
   }
-  $buf .= yaml_emit($axes);
+
+  $yaml = findAxes($matrix);
+  $yaml['permutation'] = $matrix;
+
+  $buf .= yaml_emit($yaml);
   file_put_contents(__DIR__ . '/' . basename($file), $buf);
 }
 
-function writeFilter(string $file, array $matrix, ?string $comment = NULL): void {
+function writeGroovy(string $file, string $name, array $matrix, ?string $comment = NULL): void {
   $buf = '';
   if ($comment !== NULL) {
     $buf .= implode('', ['/', '* ', $comment, ' *', '/', "\n\n"]);
   }
-  $buf .= formatGroovy($matrix);
+  $buf .= formatGroovy($name, $matrix);
   file_put_contents(__DIR__ . '/' . basename($file), $buf);
 }
 
@@ -152,10 +156,12 @@ function formatGroovyObj(array $item): string {
   return '  [' . implode(', ', $buf) . '],';
 }
 
-function formatGroovy($matrix): string {
-  $items = implode("\n", array_map(__NAMESPACE__ . '\\formatGroovyObj', $matrix));
+function formatGroovy(string $name, array $matrix): string {
+  // $items = implode("\n", array_map(__NAMESPACE__ . '\\formatGroovyObj', $matrix));
 
   return <<<TEMPLATE
+import groovy.yaml.YamlSlurper
+
 String signature(Map item, List keys) {
     def sig = ''
     keys.each { key ->
@@ -164,9 +170,11 @@ String signature(Map item, List keys) {
     return sig
 }
 
-def expectedItems = [
-$items
-]
+def yamlFilePath = "\${WORKSPACE}/src/jobs/$name.yaml"
+def yamlFile = new File(yamlFilePath)
+def yamlSlurper = new YamlSlurper()
+def yamlData = yamlSlurper.parseText(yamlFile.text)
+def expectedItems = yamlData.permutations
 
 def keys = expectedItems[0].keySet().toList()
 def expectedSignatures = expectedItems.collect { item ->
@@ -186,8 +194,8 @@ TEMPLATE;
 
 function writeJob(string $name, array $matrix, ?string $comment = NULL): void {
   printf("Generate matrix for %s\n", $name);
-  writeAxes("$name.matrix.yaml", findAxes($matrix), $comment);
-  writeFilter("$name.matrix.groovy", $matrix, $comment);
+  writeYaml("$name.matrix.yaml", $matrix, $comment);
+  writeGroovy("$name.matrix.groovy", $name, $matrix, $comment);
 }
 
 ###############################################################################
