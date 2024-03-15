@@ -1,6 +1,6 @@
 /* Auto-generated from CiviCRM-Civix-Matrix.matrix.php via update-matrices.php */
 
-import groovy.yaml.YamlSlurper
+// import groovy.yaml.YamlSlurper
 
 String signature(Map item, List keys) {
     def sig = ''
