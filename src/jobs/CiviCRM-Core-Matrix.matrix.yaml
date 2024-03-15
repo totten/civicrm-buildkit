@@ -27,4 +27,755 @@ SUITES:
 - phpunit-core-exts
 - phpunit-crm
 - phpunit-e2e
+permutation:
+  3:
+    CIVIVER: master
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  5:
+    CIVIVER: master
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  6:
+    CIVIVER: master
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  10:
+    CIVIVER: master
+    BLDTYPE: backdrop-clean
+    BKPROF: php82m80
+    SUITES: phpunit-core-exts
+  12:
+    CIVIVER: master
+    BLDTYPE: backdrop-clean
+    BKPROF: php82m80
+    SUITES: phpunit-e2e
+  13:
+    CIVIVER: master
+    BLDTYPE: backdrop-clean
+    BKPROF: php82m80
+    SUITES: meta-oddball
+  14:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-api3
+  15:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-api4
+  16:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-civi
+  17:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  18:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-crm
+  19:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  20:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  21:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: phpunit-api3
+  22:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: phpunit-api4
+  23:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: phpunit-civi
+  24:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: phpunit-core-exts
+  25:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: phpunit-crm
+  26:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: phpunit-e2e
+  27:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php82m80
+    SUITES: meta-oddball
+  28:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: phpunit-api3
+  29:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: phpunit-api4
+  30:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: phpunit-civi
+  31:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: phpunit-core-exts
+  32:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: phpunit-crm
+  33:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: phpunit-e2e
+  34:
+    CIVIVER: master
+    BLDTYPE: drupal-clean
+    BKPROF: php83m80
+    SUITES: meta-oddball
+  38:
+    CIVIVER: master
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  40:
+    CIVIVER: master
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  41:
+    CIVIVER: master
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  59:
+    CIVIVER: master
+    BLDTYPE: drupal10-clean
+    BKPROF: php82m80
+    SUITES: phpunit-core-exts
+  61:
+    CIVIVER: master
+    BLDTYPE: drupal10-clean
+    BKPROF: php82m80
+    SUITES: phpunit-e2e
+  62:
+    CIVIVER: master
+    BLDTYPE: drupal10-clean
+    BKPROF: php82m80
+    SUITES: meta-oddball
+  66:
+    CIVIVER: master
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  68:
+    CIVIVER: master
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  69:
+    CIVIVER: master
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  73:
+    CIVIVER: master
+    BLDTYPE: standalone-clean
+    BKPROF: php82m80
+    SUITES: phpunit-core-exts
+  75:
+    CIVIVER: master
+    BLDTYPE: standalone-clean
+    BKPROF: php82m80
+    SUITES: phpunit-e2e
+  76:
+    CIVIVER: master
+    BLDTYPE: standalone-clean
+    BKPROF: php82m80
+    SUITES: meta-oddball
+  80:
+    CIVIVER: master
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  82:
+    CIVIVER: master
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  83:
+    CIVIVER: master
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  87:
+    CIVIVER: master
+    BLDTYPE: wp-demo
+    BKPROF: php82m80
+    SUITES: phpunit-core-exts
+  89:
+    CIVIVER: master
+    BLDTYPE: wp-demo
+    BKPROF: php82m80
+    SUITES: phpunit-e2e
+  90:
+    CIVIVER: master
+    BLDTYPE: wp-demo
+    BKPROF: php82m80
+    SUITES: meta-oddball
+  94:
+    CIVIVER: 5.72
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  96:
+    CIVIVER: 5.72
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  97:
+    CIVIVER: 5.72
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  101:
+    CIVIVER: 5.72
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  103:
+    CIVIVER: 5.72
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  104:
+    CIVIVER: 5.72
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  105:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-api3
+  106:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-api4
+  107:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-civi
+  108:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  109:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-crm
+  110:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  111:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  112:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-api3
+  113:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-api4
+  114:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-civi
+  115:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  116:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-crm
+  117:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  118:
+    CIVIVER: 5.72
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  122:
+    CIVIVER: 5.72
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  124:
+    CIVIVER: 5.72
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  125:
+    CIVIVER: 5.72
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  143:
+    CIVIVER: 5.72
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  145:
+    CIVIVER: 5.72
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  146:
+    CIVIVER: 5.72
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  150:
+    CIVIVER: 5.72
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  152:
+    CIVIVER: 5.72
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  153:
+    CIVIVER: 5.72
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  157:
+    CIVIVER: 5.72
+    BLDTYPE: standalone-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  159:
+    CIVIVER: 5.72
+    BLDTYPE: standalone-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  160:
+    CIVIVER: 5.72
+    BLDTYPE: standalone-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  164:
+    CIVIVER: 5.72
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  166:
+    CIVIVER: 5.72
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  167:
+    CIVIVER: 5.72
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  171:
+    CIVIVER: 5.72
+    BLDTYPE: wp-demo
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  173:
+    CIVIVER: 5.72
+    BLDTYPE: wp-demo
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  174:
+    CIVIVER: 5.72
+    BLDTYPE: wp-demo
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  178:
+    CIVIVER: 5.71
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  180:
+    CIVIVER: 5.71
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  181:
+    CIVIVER: 5.71
+    BLDTYPE: backdrop-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  185:
+    CIVIVER: 5.71
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  187:
+    CIVIVER: 5.71
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  188:
+    CIVIVER: 5.71
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  189:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-api3
+  190:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-api4
+  191:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-civi
+  192:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  193:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-crm
+  194:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  195:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  196:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-api3
+  197:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-api4
+  198:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-civi
+  199:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  200:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-crm
+  201:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  202:
+    CIVIVER: 5.71
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  206:
+    CIVIVER: 5.71
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  208:
+    CIVIVER: 5.71
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  209:
+    CIVIVER: 5.71
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  227:
+    CIVIVER: 5.71
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  229:
+    CIVIVER: 5.71
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  230:
+    CIVIVER: 5.71
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  234:
+    CIVIVER: 5.71
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  236:
+    CIVIVER: 5.71
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  237:
+    CIVIVER: 5.71
+    BLDTYPE: standalone-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  241:
+    CIVIVER: 5.71
+    BLDTYPE: standalone-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  243:
+    CIVIVER: 5.71
+    BLDTYPE: standalone-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  244:
+    CIVIVER: 5.71
+    BLDTYPE: standalone-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  248:
+    CIVIVER: 5.71
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  250:
+    CIVIVER: 5.71
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  251:
+    CIVIVER: 5.71
+    BLDTYPE: wp-demo
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  255:
+    CIVIVER: 5.71
+    BLDTYPE: wp-demo
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  257:
+    CIVIVER: 5.71
+    BLDTYPE: wp-demo
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  258:
+    CIVIVER: 5.71
+    BLDTYPE: wp-demo
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  262:
+    CIVIVER: 5.69
+    BLDTYPE: backdrop-clean
+    BKPROF: php73m57
+    SUITES: phpunit-core-exts
+  264:
+    CIVIVER: 5.69
+    BLDTYPE: backdrop-clean
+    BKPROF: php73m57
+    SUITES: phpunit-e2e
+  265:
+    CIVIVER: 5.69
+    BLDTYPE: backdrop-clean
+    BKPROF: php73m57
+    SUITES: meta-oddball
+  269:
+    CIVIVER: 5.69
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  271:
+    CIVIVER: 5.69
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  272:
+    CIVIVER: 5.69
+    BLDTYPE: backdrop-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  273:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: phpunit-api3
+  274:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: phpunit-api4
+  275:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: phpunit-civi
+  276:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: phpunit-core-exts
+  277:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: phpunit-crm
+  278:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: phpunit-e2e
+  279:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php73m57
+    SUITES: meta-oddball
+  280:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-api3
+  281:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-api4
+  282:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-civi
+  283:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  284:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-crm
+  285:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  286:
+    CIVIVER: 5.69
+    BLDTYPE: drupal-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  290:
+    CIVIVER: 5.69
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-core-exts
+  292:
+    CIVIVER: 5.69
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: phpunit-e2e
+  293:
+    CIVIVER: 5.69
+    BLDTYPE: drupal9-clean
+    BKPROF: php74m57
+    SUITES: meta-oddball
+  311:
+    CIVIVER: 5.69
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: phpunit-core-exts
+  313:
+    CIVIVER: 5.69
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: phpunit-e2e
+  314:
+    CIVIVER: 5.69
+    BLDTYPE: drupal10-clean
+    BKPROF: php81m80
+    SUITES: meta-oddball
+  318:
+    CIVIVER: 5.69
+    BLDTYPE: wp-demo
+    BKPROF: php73m57
+    SUITES: phpunit-core-exts
+  320:
+    CIVIVER: 5.69
+    BLDTYPE: wp-demo
+    BKPROF: php73m57
+    SUITES: phpunit-e2e
+  321:
+    CIVIVER: 5.69
+    BLDTYPE: wp-demo
+    BKPROF: php73m57
+    SUITES: meta-oddball
 ...
