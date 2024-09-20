@@ -8,7 +8,26 @@ function ver() {
 }
 function matchVer($pat) {return (bool) preg_match($pat, ver());}
 ?>
+
+[client]
+user		= root
+#password	= your_password
+<?php printf("port=%s\n",  getenv('MYSQLD_PORT')); ?>
+<?php printf("socket=%s/run/mysql.sock\n",  getenv('LOCO_SVC_VAR')); ?>
+
 [mysqld]
+<?php printf("server-id=%s\n",  getenv('MYSQLD_PORT')); ?>
+<?php printf("bind-address=%s\n",  getenv('LOCALHOST')); ?>
+# bind-address	= *
+<?php printf("port=%s\n",  getenv('MYSQLD_PORT')); ?>
+
+## PID and Socket go into same folder regardless of MySQL version,
+## because we only run one process at a tmie.
+
+<?php printf("socket=%s/run/mysql.sock\n",  getenv('LOCO_SVC_VAR')); ?>
+<?php printf("pid_file=%s/run/mysql.pid\n",  getenv('LOCO_SVC_VAR')); ?>
+<?php printf("tmpdir=%s/tmp\n",  getenv('LOCO_MYSQL_BASE')); ?>
+
 skip-external-locking
 key_buffer_size = 256M
 max_allowed_packet = 16M

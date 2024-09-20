@@ -60,7 +60,9 @@ environment:
  - CIVIBUILD_HOME=$HTTPD_VDROOT
  - BKIT=$LOCO_PRJ
  - BKITBLD=$HTTPD_VDROOT
- - MYSQL_HOME=$LOCO_VAR/mysql/conf
+ - LOCO_MYSQL_BASE=$LOCO_VAR/mysql                         ## Same folder, regardless of version
+ # - LOCO_MYSQL_BASE=$LOCO_VAR/mysql/$(mysql-version-code) ## Split MySQL folder by version
+ - MYSQL_HOME=$LOCO_MYSQL_BASE/conf
  - NODE_PATH=$BKIT/node_modules:$NODE_PATH
  - PATH=$BKIT/bin:$BKIT/node_modules/.bin:$LOCO_PRJ/.loco/bin:$PATH
  - CIVICRM_COMPOSER_ASSET=symdir
@@ -108,8 +110,8 @@ services:
   mysql:
     enabled: true
     init:
-      - 'loco-mysql-init'
-    run: 'mysqld --defaults-file="$LOCO_SVC_VAR/conf/my.cnf" --datadir="$LOCO_SVC_VAR/data"'
+      - 'loco-mysql-init "$LOCO_MYSQL_BASE"'
+    run: 'mysqld --defaults-file="$LOCO_MYSQL_BASE/conf/my.cnf" --datadir="$LOCO_MYSQL_BASE/data"'
     pid_file: '$LOCO_SVC_VAR/run/mysql.pid'
     message: |-
       MySQL is running on "<comment>$LOCALHOST:$MYSQLD_PORT</comment>". The default credentials are user="<comment>root</comment>" and password="".
