@@ -53,8 +53,9 @@ pushd "${CMS_ROOT}/sites/${DRUPAL_SITE_DIR}" >> /dev/null
   drush8 -y user-add-role demoadmin "$DEMO_USER"
 
   ## Setup userprotect
-  drush8 -y en userprotect
-  drush8 -y rmp authenticated 'userprotect.account.edit,userprotect.mail.edit,userprotect.pass.edit'
+  # -- WORK-AROUND: Temporarily disable pending https://github.com/drush-ops/drush/issues/6154
+  # drush8 -y en userprotect
+  # drush8 -y rmp authenticated 'userprotect.account.edit,userprotect.mail.edit,userprotect.pass.edit'
 
 popd >> /dev/null
 
