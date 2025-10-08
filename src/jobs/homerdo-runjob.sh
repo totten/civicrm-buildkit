@@ -10,6 +10,10 @@
 ## - `homerdo-runjob.sh setup` performs basic maintenance on `bknix-max-0.img` (eg `civi-download-tools`)
 ## - `homerdo-runjob.sh exec` loads `bknix-max-0.img`, executes the test-job, and transfers
 ##   any new artifacts from `~homer/$WORKSPACE` to `~mainuser/$WORKSPACE`.
+##
+## A general assumption of this script is that you want run with the current `civicrm-buildkit`.
+## However, in some edge-cases, the CI server could set BKIT_FETCH_REF to run an alternate version.
+## (Ex: BKIT_FETCH_REF=pull/1234/merge)
 
 #####################################################################
 ## Internal Environment
@@ -34,6 +38,7 @@ SPOOL="/var/local/runjob"
 function main() {
   trap on_shutdown EXIT
   assert_spoooldir
+  echo 2>&1 "[homerdo-runjob] BKIT_FETCH_REF=$BKIT_FETCH_REF"
   case "$1" in
     all)         do_all ; ;;
     request)     do_request ; ;;
@@ -264,6 +269,7 @@ function do_exec() {
   cat "$REQUEST" | well_formed_variables | known_variables > env-effective.txt
 
   cd "$BKIT"
+  apply_bkit_patch
   cat ".loco/worker-n.yml" | grep -v CIVI_TEST_MODE > ".loco/loco.yml"
   BKIT="$BKIT" run-bknix-job --autostart
 
@@ -272,6 +278,22 @@ function do_exec() {
 
 #####################################################################
 ## Utilities
+
+## In general, we do not run tests with buildkit patches.
+## However, for `civicrm-buildkit`, the Jenkins job will assign `BKIT_FETCH_REF`.
+## We can use that to checkout an alternate commit.
+## This should only run within homerdo and with a temp filesystem.
+function apply_bkit_patch() {
+  if [[ -z "$BKIT_FETCH_REF" ]]; then
+    return
+  fi
+
+  assert_bknix_temporary
+
+  local branch=fetch-$(date '+%Y-%m-%d'-$RANDOM$RANDOM)
+  git fetch origin "$BKIT_FETCH_REF":"$branch"
+  git checkout "$branch"
+}
 
 function show_request_cmd() {
   local request="$1"
@@ -426,6 +448,17 @@ function safe_delete() {
       rm -rf "$FILE"
     fi
   done
+}
+
+function assert_bknix_temporary() {
+  case "$USER" in
+    homer|runner-*)
+      true
+      ;;
+    *)
+      fatal "ERROR: This job is expected to run in a temporary environment. The user is \"$USER\" which suggests it is persistent."
+      ;;
+  esac
 }
 
 function assert_spoooldir() {
