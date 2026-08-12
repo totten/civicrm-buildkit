@@ -23,6 +23,7 @@ in if (isValidPackage php) && (isValidPackage dbms)
     dists.default.memcached
     dbms
     dists.default.redis
+    dists.default.tika
     dists.bkit.transifexClient
 
   ] ++ (if isApple then [] else [dists.default.chromium dists.default.wkhtmltopdf])

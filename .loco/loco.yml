@@ -39,6 +39,7 @@ default_environment:
  - MYSQLD_PORT=3307
  - PHPFPM_PORT=9009
  - REDIS_PORT=6380
+ - TIKA_PORT=9998
 
  ## XDEBUG_*: Enable or disable main XDebug options
  #- XDEBUG_MODE=off
@@ -160,3 +161,9 @@ services:
     run: 'loco-pid-file "$LOCO_SVC_VAR/chrome-headless.pid" -- "$CHROME_BIN" --disable-gpu --headless --remote-debugging-address="$CHROME_HOST" --remote-debugging-port="$CHROME_PORT"'
     pid_file : '$LOCO_SVC_VAR/chrome-headless.pid'
     message: 'Chrome (headless) is running on "<comment>http://$CHROME_HOST:$CHROME_PORT</comment>" to support automated testing.'
+
+  tika:
+    enabled: false
+    run: 'loco-pid-file """$LOCO_SVC_VAR/tika.pid" -- tika-server --host "$LOCALHOST" --port "$TIKA_PORT"'
+    pid_file : '$LOCO_SVC_VAR/tika.pid'
+    message: 'Tika Server is running on "<comment>http://$LOCALHOST:$TIKA_PORT</comment>"'
